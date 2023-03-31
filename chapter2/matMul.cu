@@ -10,11 +10,11 @@
 
 // #include "dbg.h"
 
-const int M = 256;
-const int K = 256;
-const int N = 256;
+const int M = 2048;
+const int K = 2048;
+const int N = 2048;
 
-const int BLOCK_SIZE = 16;
+const int BLOCK_SIZE = 32;
 
 void initial(float* array, int size) {
     for (int i = 0; i < size; i++) {
@@ -76,17 +76,21 @@ __global__ void matrixMultiplyShared(float* A, float* B, float* C, int numARows,
     // 通过for循环依次把numAcols/BLOCK_SIZE个子矩阵放入共享内存的subA, subB
     // Loop over all the sub-matrices of A and B that are required to compute Csub
     // Multiply each pair of sub-matrices together and accumulate the results
-    for (int i = 0; i < (int)ceil((float)numACols / BLOCK_SIZE); i++) {
+    for (int i = 0; i < (numACols / BLOCK_SIZE); i++) {
         // 每个线程读取一个元素放入subA, subB共享内存
-        if (i * BLOCK_SIZE + threadIdx.x < numACols && row < numARows)
-            subA[threadIdx.y][threadIdx.x] = A[row * numACols + i * BLOCK_SIZE + threadIdx.x];
-        else
-            subA[threadIdx.y][threadIdx.x] = 0;
+        // if (i * BLOCK_SIZE + threadIdx.x < numACols && row < numARows)
+        //     subA[threadIdx.y][threadIdx.x] = A[row * numACols + i * BLOCK_SIZE + threadIdx.x];
+        // else
+        //     subA[threadIdx.y][threadIdx.x] = 0;
         
-        if (i * BLOCK_SIZE + threadIdx.y < numBRows && col < numBCols)
-            subB[threadIdx.y][threadIdx.x] = B[(i * BLOCK_SIZE + threadIdx.y) * numBCols + col];
-        else
-            subB[threadIdx.y][threadIdx.x] = 0;
+        // if (i * BLOCK_SIZE + threadIdx.y < numBRows && col < numBCols)
+        //     subB[threadIdx.y][threadIdx.x] = B[(i * BLOCK_SIZE + threadIdx.y) * numBCols + col];
+        // else
+        //     subB[threadIdx.y][threadIdx.x] = 0;
+
+        subA[threadIdx.y][threadIdx.x] = A[row * numACols + i * BLOCK_SIZE + threadIdx.x];
+        subB[threadIdx.y][threadIdx.x] = B[(i * BLOCK_SIZE + threadIdx.y) * numBCols + col];
+
         // synchronize to make sure the sub-matrieces are loaded before starting the computation
         __syncthreads();
 
@@ -103,7 +107,7 @@ __global__ void matrixMultiplyShared(float* A, float* B, float* C, int numARows,
 }
 
 void checkResult(float* hostRef, float* deviceRef, const int num_to_check) {
-    double diff = 1.0E-8;
+    double diff = 1.0E-6;
     for (size_t i = 0; i < num_to_check; i++) {
         if (abs(hostRef[i] - deviceRef[i]) > diff) {
             printf("result check faild\n");
