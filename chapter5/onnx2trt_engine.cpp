@@ -9,6 +9,7 @@
 #include <cassert>
 #include <algorithm>
 #include <vector>
+#include <chrono>
 
 #include "dbg.h"
 
@@ -20,6 +21,7 @@ class Logger : public nvinfer1::ILogger {
 };
 
 int main() {
+    auto start_time = std::chrono::high_resolution_clock::now();
     Logger logger;
     nvinfer1::IBuilder* builder = nvinfer1::createInferBuilder(logger);
 
@@ -97,10 +99,13 @@ int main() {
 
     const int cnt = 30;
     const int data_size = cnt * sizeof(float);
-    torch::Tensor input_ids_h = torch::ones(30, torch::dtype(torch::kFloat32).device(torch::kCUDA));
-    float* token_type_ids_h = new float[cnt];
-    float* attention_mask_h = new float[cnt];
-    float* logits_h = new float[30 * 30522];
+    torch::Tensor input_ids_h = torch::ones(30, torch::dtype(torch::kFloat32).device(torch::kCPU));
+    torch::Tensor token_type_ids_h = torch::ones(30, torch::dtype(torch::kFloat32).device(torch::kCPU));
+    torch::Tensor attention_mask_h = torch::ones(30, torch::dtype(torch::kFloat32).device(torch::kCPU));
+    torch::Tensor logits_h = torch::zeros(30 * 30522, torch::dtype(torch::kFloat32).device(torch::kCPU));
+    // float* token_type_ids_h = new float[cnt];
+    // float* attention_mask_h = new float[cnt];
+    // float* logits_h = new float[30 * 30522];
     float *input_ids_d, *token_type_ids_d, *attention_mask_d, *logits_d;
     
     cudaMalloc(&input_ids_d, data_size);
@@ -110,8 +115,8 @@ int main() {
     // cudaStream_t stream;
     // cudaStreamCreate(&stream);
     cudaMemcpy(input_ids_d, input_ids_h.data_ptr(), data_size, cudaMemcpyHostToDevice);
-    cudaMemcpy(token_type_ids_d, token_type_ids_h, data_size, cudaMemcpyHostToDevice);
-    cudaMemcpy(attention_mask_d, attention_mask_h, data_size, cudaMemcpyHostToDevice);
+    cudaMemcpy(token_type_ids_d, token_type_ids_h.data_ptr(), data_size, cudaMemcpyHostToDevice);
+    cudaMemcpy(attention_mask_d, attention_mask_h.data_ptr(), data_size, cudaMemcpyHostToDevice);
 
 
     context->setTensorAddress(input_ids.data(), input_ids_d);
@@ -120,20 +125,32 @@ int main() {
     context->setTensorAddress(logits.data(), logits_d);
 
     //start inference using a cuda stream
+    cudaEvent_t start, stop;
+    cudaEventCreate(&start);
+    cudaEventCreate(&stop);
+    cudaEventRecord(start, 0);
     context->enqueueV3(0);
+    cudaEventRecord(stop, 0);
+    cudaEventSynchronize(stop);
+    float elapsedTime;
+    cudaEventElapsedTime(&elapsedTime, start, stop);
 
-    cudaMemcpy(logits_h, logits_d, 30 * 30522 * sizeof(float), cudaMemcpyDeviceToHost);
+    cudaMemcpy(logits_h.contiguous().data_ptr(), logits_d, 30 * 30522 * sizeof(float), cudaMemcpyDeviceToHost);
     std::fstream output_file;
-    output_file.open("output_cpp.bin", std::ios::out | std::ios::binary);
-    output_file.write((char*)logits_h, 30 * 30522 * sizeof(float));
+    output_file.open("/home/rui.bai/bairui_file/cuda_learning/cuda_class/chapter5/output_cpp.bin", std::ios::out | std::ios::binary);
+    output_file.write((char*)logits_h.data_ptr(), 30 * 30522 * sizeof(float));
     // delete input_ids_h;
-    delete token_type_ids_h;
-    delete attention_mask_h;
-    delete logits_h;
+    // delete token_type_ids_h;
+    // delete attention_mask_h;
+    // delete logits_h;
     cudaFree(input_ids_d);
     cudaFree(token_type_ids_d);
     cudaFree(attention_mask_d);
     cudaFree(logits_d);
+    auto end_time = std::chrono::high_resolution_clock::now();
+    auto running_time = std::chrono::duration_cast<std::chrono::milliseconds>(end_time - start_time);
+    std::cout << "cpp API program running time: " << running_time.count() << " milliseconds" << std::endl;
+    std::cout << "cuda Event elapsedTime inference:" << elapsedTime << " ms" << std::endl;
     
 
     return 0;

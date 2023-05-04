@@ -35,50 +35,72 @@ def build_engine(model_file, max_ws=512*1024*1024, fp16=False):
     return engine
 
 
-# engine = build_engine("/home/rui.bai/bairui_file/cuda_learning/cuda_class/chapter5/bert-base-uncased/bert_model_sim.onnx")
+def main():
+    start_time = time.time()
+    engine = build_engine("/home/rui.bai/bairui_file/cuda_learning/cuda_class/chapter5/bert-base-uncased/bert_model_sim.onnx")
+    with open("engine_br.trt", 'rb') as f:
+        engine_bytes = f.read()
 
-runtime = trt.Runtime(TRT_LOGGER)
-with open("engine_br.trt", 'rb') as f:
-    engine_bytes = f.read()
+    runtime = trt.Runtime(TRT_LOGGER)
     engine = runtime.deserialize_cuda_engine(engine_bytes)
 
-TRT_LOGGER.log(TRT_LOGGER.INFO, "engine load done!")
+    TRT_LOGGER.log(TRT_LOGGER.INFO, "engine load done!")
 
-# create execution context
-bert_context = engine.create_execution_context()
+    # create execution context
+    bert_context = engine.create_execution_context()
 
-batch_size = 1
-input_ids = np.random.randn(1, 30)
-token_type_ids = np.ones((1, 30))
-attention_mask = np.ones((1, 30))
+    batch_size = 1
+    input_ids = np.ones((1, 30))
+    token_type_ids = np.ones((1, 30))
+    attention_mask = np.ones((1, 30))
 
-# specify buffers for outputs:
-bert_output = torch.zeros((1, 30, 30522)).cpu().detach().numpy()
+    # specify buffers for outputs:
+    bert_output = torch.zeros((1, 30, 30522)).cpu().detach().numpy()
 
-d_input_ids = cuda.mem_alloc(batch_size * input_ids.nbytes)
-d_token_type_ids = cuda.mem_alloc(batch_size * token_type_ids.nbytes)
-d_attention_mask = cuda.mem_alloc(batch_size * attention_mask.nbytes)
+    d_input_ids = cuda.mem_alloc(batch_size * input_ids.nbytes)
+    d_token_type_ids = cuda.mem_alloc(batch_size * token_type_ids.nbytes)
+    d_attention_mask = cuda.mem_alloc(batch_size * attention_mask.nbytes)
 
-d_output = cuda.mem_alloc(batch_size * bert_output.nbytes)
+    d_output = cuda.mem_alloc(batch_size * bert_output.nbytes)
 
-# bindings array
-bindings = [int(d_input_ids), int(d_token_type_ids), int(d_attention_mask), int(d_output)]
+    # bindings array
+    bindings = [int(d_input_ids), int(d_token_type_ids), int(d_attention_mask), int(d_output)]
 
-stream = cuda.Stream()
+    stream = cuda.Stream()
+    start = cuda.Event()
+    end = cuda.Event()
+    
+    # transfer input data from python buffer to device
+    cuda.memcpy_htod_async(d_input_ids, input_ids, stream)
+    cuda.memcpy_htod_async(d_token_type_ids, token_type_ids, stream)
+    cuda.memcpy_htod_async(d_attention_mask, attention_mask, stream)
 
-# transfer input data from python buffer to device
-cuda.memcpy_htod_async(d_input_ids, input_ids, stream)
-cuda.memcpy_htod_async(d_token_type_ids, token_type_ids, stream)
-cuda.memcpy_htod_async(d_attention_mask, attention_mask, stream)
+    # execute using the engine
+    start.record(stream)
+    bert_context.execute_async(batch_size, bindings, stream.handle, None)
+    end.record(stream)
+    end.synchronize()
+    event_time = end.time_since(start)
 
-bert_context.execute_async(batch_size, bindings, stream.handle, None)
+    cuda.memcpy_dtoh_async(bert_output, d_output, stream)
+    stream.synchronize()
+    TRT_LOGGER.log(TRT_LOGGER.INFO, "memory transfer done")
+    
+    with open("/home/rui.bai/bairui_file/cuda_learning/cuda_class/chapter5/output_python.bin", "wb") as _f:
+        _f.write(bert_output)
+    TRT_LOGGER.log(TRT_LOGGER.INFO, "output write done")
 
-cuda.memcpy_dtoh_async(bert_output, d_output, stream)
-stream.synchronize()
-TRT_LOGGER.log(TRT_LOGGER.INFO, "memory transfer done")
+    pred = torch.tensor(bert_output)
+    pred_output_softmax = torch.nn.Softmax()(pred)
+    print(pred_output_softmax.shape)
+    _, predicted_idx = torch.max(pred_output_softmax, 1)
+    print(predicted_idx)
+    end_time = time.time()
+    
+    running_time = end_time - start_time
+    print("python API program running time total: ", running_time, "seconds")
+    print("python inference time by event: ", event_time, "ms")
 
-pred = torch.tensor(bert_output)
-pred_output_softmax = torch.nn.Softmax()(pred)
-print(pred_output_softmax.shape)
-_, predicted_idx = torch.max(pred_output_softmax, 1)
-print(predicted_idx)
+
+if __name__ == "__main__":
+    main()
