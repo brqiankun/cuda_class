@@ -10,7 +10,8 @@ print("pytorch:", torch.__version__)
 # print("onnxruntime device:", ort.get_device())
 print("transformers:", transformers.__version__)
 
-BERT_PATH = "./bert-base-uncased"
+# BERT_PATH = "./bert-base-uncased"
+BERT_PATH = "./bert_origin"
 
 def model_test(model, tokenizer, text):
     print("==============model test===================")
@@ -56,7 +57,7 @@ def model2onnx(model, tokenizer, text):
 
     # convert model to onnx
     model.eval()
-    export_model_path = BERT_PATH + "/model.onnx"
+    export_model_path = BERT_PATH + "/bert_model.onnx"
     opset_version = 12
     symbolic_names = {0: 'batch_size', 1: 'max_seq_len'}
     torch.onnx.export(model,                                            # model being run
@@ -88,5 +89,5 @@ if __name__ == '__main__':
     text = "The capital of France, " + tokenizer.mask_token + ", contains the Eiffel Tower."
 
     model_test(model, tokenizer, text)
-    # model2onnx(model, tokenizer, text)
+    model2onnx(model, tokenizer, text)
 

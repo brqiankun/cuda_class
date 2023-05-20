@@ -178,7 +178,7 @@ int main(int argc, char* argv[]) {
     cudaEventCreate(&gpustop);
     cudaEventRecord(gpustart, 0);
     multiMatrixOnDevice<<<dimGrid, dimBlock>>>(d_A, d_B, d_C, M, K, N);
-    cudaDeviceSynchronize();
+    // cudaDeviceSynchronize();
     cudaEventRecord(gpustop, 0);
     cudaEventSynchronize(gpustop);
     cudaEventElapsedTime(&elapsedTime, gpustart, gpustop);
@@ -201,7 +201,7 @@ int main(int argc, char* argv[]) {
     cudaEventCreate(&gpustop);
     cudaEventRecord(gpustart, 0);
     matrixMultiplyShared<<<dimGrid, dimBlock>>>(d_A, d_B, d_C, M, K, K, N, M, N);
-    cudaDeviceSynchronize();
+    // cudaDeviceSynchronize();
     cudaEventRecord(gpustop, 0);
     cudaEventSynchronize(gpustop);
 

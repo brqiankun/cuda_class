@@ -20,7 +20,7 @@ class Logger : public nvinfer1::ILogger {
     }
 };
 
-int main() {
+int main(int argc, char* argv[]) {
     auto start_time = std::chrono::high_resolution_clock::now();
     Logger logger;
     nvinfer1::IBuilder* builder = nvinfer1::createInferBuilder(logger);
@@ -34,7 +34,8 @@ int main() {
     nvonnxparser::IParser* parser = nvonnxparser::createParser(*network, logger);
     
     // read the model file and process any errors
-    std::string modelFile {"/home/rui.bai/bairui_file/cuda_learning/cuda_class/chapter5/bert-base-uncased/bert_model_sim.onnx"};
+    std::string modelFile {"/home/br/program/bert_origin/bert_model_sim.onnx"};
+    // std::string modelFile {"/home/rui.bai/bairui_file/cuda_learning/cuda_class/chapter5/bert-base-uncased/bert_model_sim.onnx"};
     std::cout << modelFile << std::endl;
     parser->parseFromFile(modelFile.data(), static_cast<int32_t>(nvinfer1::ILogger::Severity::kWARNING));
     for (int32_t i = 0; i < parser->getNbErrors(); i++) {
@@ -58,7 +59,7 @@ int main() {
     delete builder;
 
     // // save the engine to disk
-    std::string trt_engine_path {"/home/rui.bai/bairui_file/cuda_learning/cuda_class/chapter5/engine_cpp_br.trt"};
+    std::string trt_engine_path {"/home/br/program/bert_origin/engine_cpp_br.trt"};
     std::fstream serializedModel_file;
     serializedModel_file.open(trt_engine_path, std::ios::out | std::ios::binary);
     assert(serializedModel_file.is_open() == true);
@@ -137,7 +138,7 @@ int main() {
 
     cudaMemcpy(logits_h.contiguous().data_ptr(), logits_d, 30 * 30522 * sizeof(float), cudaMemcpyDeviceToHost);
     std::fstream output_file;
-    output_file.open("/home/rui.bai/bairui_file/cuda_learning/cuda_class/chapter5/output_cpp.bin", std::ios::out | std::ios::binary);
+    output_file.open("/home/br/program/cuda_class/chapter5/output_cpp.bin", std::ios::out | std::ios::binary);
     output_file.write((char*)logits_h.data_ptr(), 30 * 30522 * sizeof(float));
     // delete input_ids_h;
     // delete token_type_ids_h;

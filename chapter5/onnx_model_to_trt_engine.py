@@ -1,10 +1,13 @@
 # from tensorrt 
 import tensorrt as trt
-import pycuda.autoinit
-import pycuda.driver as cuda
+import cuda
+# import pycuda.autoinit  # 尝试官网的cuda-python
+# import pycuda.driver as cuda
 import time
 import numpy as np
 import torch
+
+cuda.cuInit(0)
 
 TRT_LOGGER = trt.Logger(trt.Logger.INFO)
 
@@ -56,18 +59,17 @@ def main():
 
     # specify buffers for outputs:
     bert_output = torch.zeros((1, 30, 30522)).cpu().detach().numpy()
+    d_input_ids = cuda.cuda.cuMemAlloc(batch_size * input_ids.nbytes)
+    d_token_type_ids = cuda.cuMemAlloc(batch_size * token_type_ids.nbytes)
+    d_attention_mask = cuda.cuMemAlloc(batch_size * attention_mask.nbytes)
 
-    d_input_ids = cuda.mem_alloc(batch_size * input_ids.nbytes)
-    d_token_type_ids = cuda.mem_alloc(batch_size * token_type_ids.nbytes)
-    d_attention_mask = cuda.mem_alloc(batch_size * attention_mask.nbytes)
-
-    d_output = cuda.mem_alloc(batch_size * bert_output.nbytes)
+    d_output = cuda.cuMemAlloc(batch_size * bert_output.nbytes)
 
     # bindings array
     bindings = [int(d_input_ids), int(d_token_type_ids), int(d_attention_mask), int(d_output)]
 
-    stream = cuda.Stream()
-    start = cuda.Event()
+    stream = cuda.cuStreamCreate(CU_STREAM_NON_BLOCKING)
+    start = cuda.cuEventCreate()
     end = cuda.Event()
     
     # transfer input data from python buffer to device

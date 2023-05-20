@@ -4,6 +4,8 @@
 *.ptx
 *.cubin
 *.fatbin
+*.so
+*.o
 a.out
 .vscode
 trtoss/
@@ -20,3 +22,7 @@ cuda-samples
 chapter3/stream_test_multi_thread_1
 chapter3/stream_test_multi_thread_0
 lib
+*.zip
+*.rar
+*.tar.gz
+*.tar
