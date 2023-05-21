@@ -64,7 +64,7 @@ def run():
     builder         = trt.Builder(logger)
     network         = builder.create_network(1<<0)
     config          = builder.create_builder_config()
-    config.max_workspace_size = 6 << 30
+    config.max_workspace_size = 512 * 1024 * 1024 # 6 << 30
     config.flags    = 0
 
     inputTensorList = []

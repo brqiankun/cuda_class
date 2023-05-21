@@ -1,13 +1,13 @@
 # from tensorrt 
+import os
 import tensorrt as trt
-import cuda
+import cuda.cudart
 # import pycuda.autoinit  # 尝试官网的cuda-python
 # import pycuda.driver as cuda
 import time
 import numpy as np
 import torch
 
-cuda.cuInit(0)
 
 TRT_LOGGER = trt.Logger(trt.Logger.INFO)
 
@@ -40,7 +40,11 @@ def build_engine(model_file, max_ws=512*1024*1024, fp16=False):
 
 def main():
     start_time = time.time()
-    engine = build_engine("/home/rui.bai/bairui_file/cuda_learning/cuda_class/chapter5/bert-base-uncased/bert_model_sim.onnx")
+    # engine = build_engine("/home/rui.bai/bairui_file/cuda_learning/cuda_class/chapter5/bert-base-uncased/bert_model_sim.onnx")
+    ONNX_SIM_PATH = "/home/br/program/bert_origin/bert_model_sim.onnx"
+    if os.path.isfile(ONNX_SIM_PATH) is not True:
+        raise RuntimeError
+    # engine = build_engine(ONNX_SIM_PATH)
     with open("engine_br.trt", 'rb') as f:
         engine_bytes = f.read()
 
@@ -59,37 +63,43 @@ def main():
 
     # specify buffers for outputs:
     bert_output = torch.zeros((1, 30, 30522)).cpu().detach().numpy()
-    d_input_ids = cuda.cuda.cuMemAlloc(batch_size * input_ids.nbytes)
-    d_token_type_ids = cuda.cuMemAlloc(batch_size * token_type_ids.nbytes)
-    d_attention_mask = cuda.cuMemAlloc(batch_size * attention_mask.nbytes)
+    _, d_input_ids = cuda.cudart.cudaMalloc(batch_size * input_ids.nbytes)
+    _, d_token_type_ids = cuda.cudart.cudaMalloc(batch_size * token_type_ids.nbytes)
+    _, d_attention_mask = cuda.cudart.cudaMalloc(batch_size * attention_mask.nbytes)
 
-    d_output = cuda.cuMemAlloc(batch_size * bert_output.nbytes)
+    _, d_output = cuda.cudart.cudaMalloc(batch_size * bert_output.nbytes)
 
+
+    if cuda.cudart.cudaGetLastError() != cuda.cudart.cudaError_t.cudaSuccess:
+        print(cuda.cudart.cudaGetErrorString(cuda.cudart.cudaGetLastError()[0]))
     # bindings array
     bindings = [int(d_input_ids), int(d_token_type_ids), int(d_attention_mask), int(d_output)]
 
-    stream = cuda.cuStreamCreate(CU_STREAM_NON_BLOCKING)
-    start = cuda.cuEventCreate()
-    end = cuda.Event()
+    _, stream = cuda.cudart.cudaStreamCreate()
+    _, stream_flags = cuda.cudart.cudaStreamGetFlags(stream)
+    _, start = cuda.cudart.cudaEventCreate()
+    _, end = cuda.cudart.cudaEventCreate()
     
     # transfer input data from python buffer to device
-    cuda.memcpy_htod_async(d_input_ids, input_ids, stream)
-    cuda.memcpy_htod_async(d_token_type_ids, token_type_ids, stream)
-    cuda.memcpy_htod_async(d_attention_mask, attention_mask, stream)
+    cuda.cudart.cudaMemcpyAsync(d_input_ids, input_ids, batch_size * input_ids.nbytes, cuda.cudart.cudaMemcpyKind.cudaMemcpyHostToDevice, stream)
+    cuda.cudart.cudaMemcpyAsync(d_token_type_ids, token_type_ids, batch_size * token_type_ids.nbytes, cuda.cudart.cudaMemcpyKind.cudaMemcpyHostToDevice, stream)
+    cuda.cudart.cudaMemcpyAsync(d_attention_mask, attention_mask, batch_size * attention_mask.nbytes, cuda.cudart.cudaMemcpyKind.cudaMemcpyHostToDevice, stream)
 
     # execute using the engine
-    start.record(stream)
-    bert_context.execute_async(batch_size, bindings, stream.handle, None)
-    end.record(stream)
-    end.synchronize()
-    event_time = end.time_since(start)
+    cuda.cudart.cudaEventRecord(start, stream)
+    bert_context.execute_async_v2(bindings, stream_flags, None)
+    cuda.cudart.cudaEventRecord(end, stream)
+    cuda.cudart.cudaEventSynchronize(end)
+    _, event_time = cuda.cudart.cudaEventElapsedTime(start, end)
 
-    cuda.memcpy_dtoh_async(bert_output, d_output, stream)
-    stream.synchronize()
+    cuda.cudart.cudaMemcpyAsync(bert_output, d_output, batch_size * bert_output.nbytes, cuda.cudart.cudaMemcpyKind.cudaMemcpyDeviceToHost, stream)
+    cuda.cudart.cudaStreamSynchronize(stream)
     TRT_LOGGER.log(TRT_LOGGER.INFO, "memory transfer done")
     
-    with open("/home/rui.bai/bairui_file/cuda_learning/cuda_class/chapter5/output_python.bin", "wb") as _f:
-        _f.write(bert_output)
+    # with open("/home/rui.bai/bairui_file/cuda_learning/cuda_class/chapter5/output_python.bin", "wb") as _f:
+    # with open("/home/br/program/cuda_class/chapter5/output_python.bin") as _f:
+    #     _f.write(bert_output.dumps())
+    bert_output.tofile("/home/br/program/cuda_class/chapter5/output_python.bin")
     TRT_LOGGER.log(TRT_LOGGER.INFO, "output write done")
 
     pred = torch.tensor(bert_output)
