@@ -26,7 +26,6 @@
 #endif // DEBUG
 
 // +------- Plguin ---------------------------------------------------------------------------------
-// 
 namespace
 {
 static const char* PLUGIN_NAME{"LayerNorm"};
@@ -108,12 +107,6 @@ public:
         default:// should NOT be here
             res = false;
         }
-#if DEBUG        
-        printf("res(%d,%d),(%d,%d,%d,%d)\n", pos,int(res),int(inOut[0].type),
-                                                            int(inOut[1].type));
-                                                            // int(inOut[2].type),
-                                                            // int(inOut[3].type));
-#endif                
         return res;
     }
     
@@ -139,31 +132,26 @@ public:
         WHERE_AM_I();
         namespace_ = szNamespace;
     }
-    
     const char* getPluginNamespace() const noexcept override
     {
         WHERE_AM_I();
         return namespace_.c_str();
     }
-    
     const char* getPluginType() const noexcept override
     {
         WHERE_AM_I();
         return PLUGIN_NAME;
     }
-    
     const char* getPluginVersion() const noexcept override
     {
         WHERE_AM_I();
         return PLUGIN_VERSION;
     }
-    
     int initialize() noexcept override
     {
         WHERE_AM_I();
         return 0;
     }
-    
     void terminate() noexcept override
     {
         WHERE_AM_I();
@@ -175,8 +163,7 @@ public:
         WHERE_AM_I();
     }
     
-    int32_t enqueue(const PluginTensorDesc* inputDesc, const PluginTensorDesc* outputDesc, const void* const* inputs, 
-                    void* const* outputs, void* workspace, cudaStream_t stream) noexcept override;
+    int32_t enqueue(const PluginTensorDesc* inputDesc, const PluginTensorDesc* outputDesc, const void* const* inputs, void* const* outputs, void* workspace, cudaStream_t stream) noexcept override;
 }; // class LayerNormPlugin
 
 class LayerNormPluginCreator : public IPluginCreator

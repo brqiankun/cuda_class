@@ -14,7 +14,6 @@
  * limitations under the License.
  */
  
- #include <cuda_runtime.h>
  #include "LayerNormPlugin.h"
 
 using namespace nvinfer1;
@@ -22,7 +21,7 @@ using namespace nvinfer1;
 PluginFieldCollection LayerNormPluginCreator::fc_{};
 std::vector<PluginField> LayerNormPluginCreator::attr_;
 
-__global__ void layerNormKernel(const float *pInput, float *pOutput)
+__global__ void layerNormKernel(float *pInput, float *pOutput)
 {
     const int tx = threadIdx.x, index = blockIdx.x * 256 + threadIdx.x;
 
@@ -34,7 +33,6 @@ __global__ void layerNormKernel(const float *pInput, float *pOutput)
     temp[tx] = value0 + value1;
     __syncthreads();
 
-    // 所有256个元素求和
     for (int stride = 64; stride >= 1; stride /= 2)
     {
         if (tx < stride)
@@ -43,15 +41,12 @@ __global__ void layerNormKernel(const float *pInput, float *pOutput)
         }
         __syncthreads();
     }
-    // 256个元素求平均
     float mean = temp[0] / 256;
     __syncthreads();
 
-    // 求出value0 和value1的方差
     temp[tx] = (value0 - mean) * (value0 - mean) + (value1 - mean) * (value1 - mean);
     __syncthreads();
 
-    // 求出256个元素的方差之和
     for (int stride = 64; stride >= 1; stride /= 2)
     {
         if (tx < stride)
@@ -60,20 +55,17 @@ __global__ void layerNormKernel(const float *pInput, float *pOutput)
         }
         __syncthreads();
     }
-    // 求出均方差
     float var = temp[0] / 256;
 
-    // 求出 layernormal后的每个元素   rsqrf(x) return 1 / (x)^(1/2)
     pOutput[index]       = (value0 - mean) * rsqrtf(var + 6e-6);
     pOutput[index + 128] = (value1 - mean) * rsqrtf(var + 6e-6);
 }
 
-int32_t LayerNormPlugin::enqueue(const PluginTensorDesc* inputDesc, const PluginTensorDesc* outputDesc, 
-                                 const void* const* inputs, void* const* outputs, void* workspace, cudaStream_t stream) noexcept
+int32_t LayerNormPlugin::enqueue(const PluginTensorDesc* inputDesc, const PluginTensorDesc* outputDesc, const void* const* inputs, void* const* outputs, void* workspace, cudaStream_t stream) noexcept
 {
     const int nBlock = inputDesc[0].dims.d[0] * inputDesc[0].dims.d[1];
-    printf("nBlock: %d\n", nBlock);
-    layerNormKernel <<<nBlock, 128, 0, stream>>>((const float *)inputs[0], (float *)outputs[0]);
+
+    layerNormKernel <<<nBlock, 128, 0, stream>>>((float *)inputs[0], (float *)outputs[0]);
     return 0;
 }
 

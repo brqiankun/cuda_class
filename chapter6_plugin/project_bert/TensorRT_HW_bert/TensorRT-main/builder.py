@@ -8,7 +8,7 @@ import re
 import sys
 import time
 import onnx
-import cuda
+import pycuda.autoinit
 
 # TensorRT
 import tensorrt as trt
@@ -290,7 +290,6 @@ def emb_layernorm(network_helper, config, weights_dict, builder_config, sequence
 
     return out
 
-# 主要是这个
 def build_engine(workspace_size, config, weights_dict, vocab_file, calibrationCacheFile, calib_num):
     explicit_batch_flag = 1 << int(trt.NetworkDefinitionCreationFlag.EXPLICIT_BATCH)
 
@@ -303,7 +302,6 @@ def build_engine(workspace_size, config, weights_dict, vocab_file, calibrationCa
         if config.use_int8:
             builder_config.set_flag(trt.BuilderFlag.INT8)
 
-            # 校准集数据导入
             calibrator = BertCalibrator("calibrator_data.txt", "bert-base-uncased", calibrationCacheFile, 1, max_seq_length, 1000)
             builder_config.set_quantization_flag(trt.QuantizationFlag.CALIBRATE_BEFORE_FUSION)
             builder_config.int8_calibrator = calibrator
@@ -459,7 +457,7 @@ def main():
         calib_cache = "BertL{}H{}A{}CalibCache".format(config.num_hidden_layers, config.head_size, config.num_attention_heads)
 
     if args.onnx != None:
-        weights_dict = load_onnx_weights_and_quant(args.onnx, config)          # 从ONNX中导出权重到TRT
+        weights_dict = load_onnx_weights_and_quant(args.onnx, config)
     else:
         raise RuntimeError("You need either specify ONNX using option --onnx to build TRT BERT model.")
 

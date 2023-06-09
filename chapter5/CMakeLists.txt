@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.17)
-project(onnx2trt)  # 使CMake可以识别并验证CUDA编译器nvcc
+project(onnx2trt CXX CUDA)  # 使CMake可以识别并验证CUDA编译器nvcc
 
 enable_language(CUDA CXX) #激活CUDA语言支持，使用第一个写法时要进行注释  需要在CMAKE_CUDA_COMPILER中指定nvcc路径
 # 要检查 CUDA 是否可用，可使用 CheckLanuage:

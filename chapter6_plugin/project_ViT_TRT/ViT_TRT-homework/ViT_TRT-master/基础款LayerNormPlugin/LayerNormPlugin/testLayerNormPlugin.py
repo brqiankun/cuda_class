@@ -17,7 +17,7 @@
 import os
 import ctypes
 import numpy as np
-from cuda import cudart  # cuda runtime API
+from cuda import cudart  # 使用 cuda runtime API
 import tensorrt as trt
 
 soFilePath      = './LayerNorm.so'
@@ -27,12 +27,6 @@ nEmbedding      = 256
 epsilon         = 6e-6
 
 np.random.seed(97)
-
-npToTRT = {np.int8:trt.int8,np.float16:trt.float16,np.int32:trt.int32,np.float32:trt.float32}
-npToPFT = {np.int8:trt.PluginFieldType.INT8,np.float16:trt.PluginFieldType.FLOAT16,
-            np.int32:trt.PluginFieldType.INT32,np.float32:trt.PluginFieldType.FLOAT32}
-
-
 
 def check(a, b, weak = False):
     if weak:
@@ -44,14 +38,11 @@ def layerNormCPU(bufferH):
     _x = bufferH[0]
     nEmbed = bufferH[0].shape[2]
     _0  = np.mean(_x,2)[:,:,np.newaxis]
-    print(_0.shape)
     _1  = _x - _0
     _2  = _1 * _1
-    _3  = np.mean(_2,2)[:,:,np.newaxis]       # standard deviation
-    print(_3.shape)
+    _3  = np.mean(_2,2)[:,:,np.newaxis]
     _4  = np.array(epsilon,dtype=np.float32)
     _5  = _4.reshape(1,1,1)
-    print(_5.shape)
     _6  = _3 + _5
     _7  = np.sqrt(_6)
     _8  = 1 / _7                # 1/sqrt(...)
@@ -59,72 +50,35 @@ def layerNormCPU(bufferH):
     return _9
 
 def getLayerNormPlugin():
-    # plg_register = trt.get_plugin_registry()
-    # plg_creator = plg_register.get_plugin_creator("LayerNorm", "1", "")
-    # print(type(plg_creator))
-    # if plg_creator is None:
-    #     raise RuntimeError("could not find LayerNorm")
-    # plugin = plg_creator.create_plugin("LayerNorm", trt.PluginFieldCollection([]))
-    # print(type(plugin))
-    # if plugin is None:
-    #     raise RuntimeError("Could not create_plugin LayerNormPluginDynamic")
-
     for c in trt.get_plugin_registry().plugin_creator_list:
-        # print(c.name)
+        #print(c.name)
         if c.name == 'LayerNorm':
             return c.create_plugin(c.name, trt.PluginFieldCollection([]))
     return None
 
 def run():
-    logger = trt.Logger(trt.Logger.VERBOSE)
+    logger = trt.Logger(trt.Logger.ERROR)
     trt.init_libnvinfer_plugins(logger, '')
-    handle = ctypes.cdll.LoadLibrary(soFilePath)
-    if not handle:
-        raise RuntimeError("Could not load plugin library. Is `LayerNorm.so` on your LD_LIBRARY_PATH?")
+    ctypes.cdll.LoadLibrary(soFilePath)
 
     builder         = trt.Builder(logger)
-    network         = builder.create_network(1 << int(trt.NetworkDefinitionCreationFlag.EXPLICIT_BATCH))
+    network         = builder.create_network(1<<0)
     config          = builder.create_builder_config()
-    config.max_workspace_size = 6 << 30 #1024 * 1024 * 1024 # 6 << 30
-    # config.set_memory_pool_limit(trt.MemoryPoolType.WORKSPACE, 6 << 30)
-    # config.flags    = 0
-    config.flags    = [0, 1 << int(trt.BuilderFlag.FP16)][0]
+    config.max_workspace_size = 6 << 30
+    config.flags    = 0
 
     inputTensorList = []
     inputTensorList.append( network.add_input('inputT', trt.float32, [-1,-1,256]) )
-    print("inputTensorList: {}".format(inputTensorList))
-    print(inputTensorList[0].name, inputTensorList[0].shape, inputTensorList[0].dtype)
 
     profile = builder.create_optimization_profile()
-    profile.set_shape('inputT',[1,4,256],[4,16,256],[16,64,256])
+    profile.set_shape('inputT',[1,4,256],[4,64,256],[16,256,256])
     config.add_optimization_profile(profile)
 
-    print("inputTensorList's length: {}".format(len(inputTensorList)))
     pluginLayer = network.add_plugin_v2(inputTensorList, getLayerNormPlugin())
-    if pluginLayer is None:
-        raise RuntimeError("add_plugin_v2() failed")
-    
-    print(pluginLayer.get_output(0).dtype)
-    # pluginLayer.get_output(0).dtype = [trt.float32, trt.float16][0]
-    print(pluginLayer.get_output(0).dtype)
 
     network.mark_output(pluginLayer.get_output(0))
 
-    print(type(network))
-    print("network.num_layers: {}".format(network.num_layers))
-    print(network.num_inputs)
-    print(network.num_outputs)
-    print(network.name)
-    
-    print("---------------build engine begin------------")
-    engine = builder.build_engine(network, config)
-    print("---------------build engine end------------")
-    print(type(engine))
-
-    print("---------------build serialized network begin------------")
     engineString = builder.build_serialized_network(network, config)
-    print("---------------build serialized network end------------")
-    print(type(engineString))
     engine = trt.Runtime(logger).deserialize_cuda_engine(engineString)
 
     context = engine.create_execution_context()
