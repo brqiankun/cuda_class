@@ -3,6 +3,7 @@
 
 
 1. Torch-TensorRT
+https://github.com/NVIDIA-AI-IOT/torch2trt
 不支持的子图使用libtorch实现
 
 2. ONNX-Parser
