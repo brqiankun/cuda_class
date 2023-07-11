@@ -1,11 +1,20 @@
-#include<stdio.h>
+#include <stdio.h>
+#include <cuda_runtime.h>
+
 __global__ void hello() {
- printf("GPU: HELLO\n");
+    int j = 0;
+  for (int i = 0; i < 1e6; i++) {
+    j++;
+  }
+  printf("GPU: HELLO\n");
 }
 
 int main() {
     printf("CPU: HELLO\n"); 
     hello<<<1, 10>>>();
-    cudaDeviceReset();
+    int* d_p = nullptr;
+    cudaMalloc(&d_p, 10);
+    hello<<<1, 10>>>();
+    cudaDeviceSynchronize();
     return 0;
 }
