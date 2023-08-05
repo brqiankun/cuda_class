@@ -18,8 +18,9 @@
 import tensorrt as trt
 import os
 
-import pycuda.driver as cuda
-import pycuda.autoinit
+# import pycuda.driver as cuda
+# import pycuda.autoinit
+from cuda import cudart
 import numpy as np
 
 from transformers import BertTokenizer
@@ -57,7 +58,7 @@ class BertCalibrator(trt.IInt8LegacyCalibrator):
         self.max_query_length = 64
 
         # Allocate enough memory for a whole batch.
-        self.device_inputs = [cuda.mem_alloc(self.max_seq_length * trt.int32.itemsize * self.batch_size) for binding in range(3)]
+        self.device_inputs = [cudart.cudaMalloc(self.max_seq_length * trt.int32.itemsize * self.batch_size) for binding in range(3)]
 
     def free(self):
         for dinput in self.device_inputs:
@@ -108,7 +109,7 @@ class BertCalibrator(trt.IInt8LegacyCalibrator):
 
 if __name__ == '__main__':
     data_txt = "calibrator_data.txt"
-    bert_path = "bert-base-uncased"
+    bert_path = "/home/br/program/bert_origin"
     cache_file = "bert_calibrator.cache"
     batch_size = 1
     max_seq_length = 200

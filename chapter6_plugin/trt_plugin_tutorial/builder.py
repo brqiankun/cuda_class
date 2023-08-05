@@ -71,15 +71,15 @@ def get_mha_dtype(config):
         dtype = trt.int8
     return int(dtype)
 
-def custom_fc(config, network, input_tensor, out_dims, W):
-    pf_out_dims = trt.PluginField("out_dims", np.array([out_dims], dtype=np.int32), trt.PluginFieldType.INT32)
-    pf_W = trt.PluginField("W", W.numpy(), trt.PluginFieldType.FLOAT32)
-    pf_type = trt.PluginField("type_id", np.array([1 if config.use_fp16 else 0], np.int32), trt.PluginFieldType.INT32)
-    pfc = trt.PluginFieldCollection([pf_out_dims, pf_W, pf_type])
-    fc_plugin = fc_plg_creator.create_plugin("fcplugin", pfc)
-    plug_inputs = [input_tensor]
-    out_dense = network.add_plugin_v2(plug_inputs, fc_plugin)
-    return out_dense
+# def custom_fc(config, network, input_tensor, out_dims, W):
+#     pf_out_dims = trt.PluginField("out_dims", np.array([out_dims], dtype=np.int32), trt.PluginFieldType.INT32)
+#     pf_W = trt.PluginField("W", W.numpy(), trt.PluginFieldType.FLOAT32)
+#     pf_type = trt.PluginField("type_id", np.array([1 if config.use_fp16 else 0], np.int32), trt.PluginFieldType.INT32)
+#     pfc = trt.PluginFieldCollection([pf_out_dims, pf_W, pf_type])
+#     fc_plugin = fc_plg_creator.create_plugin("fcplugin", pfc)
+#     plug_inputs = [input_tensor]
+#     out_dense = network.add_plugin_v2(plug_inputs, fc_plugin)
+#     return out_dense
 
 def self_attention_layer(network_helper, prefix, config, weights_dict, input_tensor, imask):
     num_heads = config.num_attention_heads
@@ -102,9 +102,9 @@ def self_attention_layer(network_helper, prefix, config, weights_dict, input_ten
     v = network_helper.addShuffle(v, None, (0, -1, num_heads, head_size), (0, 2, 1, 3), "att_v_view_and transpose")
 
     scores = network_helper.addMatMul(q, k, "q_mul_k")
-
+    print("before scale: scores.shape: {}".format(scores.shape))
     scores = network_helper.addScale(scores, 1/math.sqrt(head_size))
-
+    print("after scale scores.shape: {}".format(scores.shape))
     attn = network_helper.addSoftmax(scores, dim=-1)
 
     attn = network_helper.addMatMul(attn, v, "matmul(p_attn, value)")
@@ -304,7 +304,7 @@ def build_engine(workspace_size, config, weights_dict, vocab_file, calibrationCa
             builder_config.set_flag(trt.BuilderFlag.INT8)
 
             # 校准集数据导入
-            calibrator = BertCalibrator("calibrator_data.txt", "bert-base-uncased", calibrationCacheFile, 1, max_seq_length, 1000)
+            calibrator = BertCalibrator("calibrator_data.txt", "/home/br/program/bert_origin", calibrationCacheFile, 1, max_seq_length, 1000)
             builder_config.set_quantization_flag(trt.QuantizationFlag.CALIBRATE_BEFORE_FUSION)
             builder_config.int8_calibrator = calibrator
 
@@ -463,13 +463,14 @@ def main():
     else:
         raise RuntimeError("You need either specify ONNX using option --onnx to build TRT BERT model.")
 
-    with build_engine(args.workspace_size, config, weights_dict, args.vocab_file, calib_cache, args.calib_num) as engine:
-        TRT_LOGGER.log(TRT_LOGGER.VERBOSE, "Serializing Engine...")
-        serialized_engine = engine.serialize()
-        TRT_LOGGER.log(TRT_LOGGER.INFO, "Saving Engine to {:}".format(args.output))
-        with open(args.output, "wb") as fout:
-            fout.write(serialized_engine)
-        TRT_LOGGER.log(TRT_LOGGER.INFO, "Done.")
+    if (os.path.isfile(args.output) == False):
+        with build_engine(args.workspace_size, config, weights_dict, args.vocab_file, calib_cache, args.calib_num) as engine:
+            TRT_LOGGER.log(TRT_LOGGER.VERBOSE, "Serializing Engine...")
+            serialized_engine = engine.serialize()
+            TRT_LOGGER.log(TRT_LOGGER.INFO, "Saving Engine to {:}".format(args.output))
+            with open(args.output, "wb") as fout:
+                fout.write(serialized_engine)
+            TRT_LOGGER.log(TRT_LOGGER.INFO, "\n\n\nDone.\n\n\n")
 
     infer_helper = InferHelper(args.output, TRT_LOGGER)
 

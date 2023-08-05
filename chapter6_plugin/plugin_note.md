@@ -11,6 +11,8 @@ https://github.com/NVIDIA/trt-samples-for-hackathon-cn/tree/master/cookbook
 (TensorRT 版本支
 持列表)[https://docs.nvidia.com/deeplearning/tensorrt/support-matrix/index.html]
 
+https://docs.nvidia.com/nsight-compute/ProfilingGuide/index.html
+
 
 ## chapter6 TensorRT Plugin
 支持TRT 不支持的算子
@@ -113,4 +115,60 @@ debug方法
 从步骤3看出，TRT是和硬件绑定的，在部署时，硬件(显卡)和软件(驱动driver， cudatoolkit， cudnn)发生变化，则需要从3重新开始。
 换句话说，不同系统环境下生成Engine 包含硬件有关优化，不能跨硬件平台使用，注意环境统一(硬件环境+ CUDA/cuDNN/TensorRT 环境)，并且不同版本TensorRT 生成的 engine不能相互兼容，同平
 台同环境多次生成的engine可能不同。
+
+
+推理框架的性能优化目标:
+1. 尽可能把非GEMM kernel进行融合
+2. GEMM kernel(Tensor Core)占比较高，例如在90%以上
+
+使用cuda-graph来减少launch bound
+
+优化流程:
+1. run Framework -> ONNX -> TRT to get baseline
+2. Profile and find perf bottleneck
+3. Optimize with **ONNX-graphsurgen** and **TRT plugin**
+可以使用多stream，int8量化
+4. repeat step2 and step3 until satisifed
+Conv + BN + Relu 融合
+融合后可以减少memory bounded的算子对内存的读写次数
+
+**nsight system** 优化模型层次的性能分析
+1. 寻找CPU和GPU的空闲时间
+2. 多卡，多stream，memory transfers
+
+**nsight compute** 优化cuda kernel
+SOL, Memory Chart
+https://docs.nvidia.com/nsight-compute/ProfilingGuide/index.html
+
+**NVTX** 人为插入一下标签来标注优化
+TRT 自带NVTX，根据layer name匹配kernel和layer
+因为TRT的优化，原始模型结构和实际执行的模型结构不相同
+在build engine过程中会自动加入reformat layer，这些reformat layer在模型中并不存在，被表示为unnamed
+
+Myelin 自动实现算子融合 
+
+**trtexec**
+
+### 性能优化技巧
+1. batching 增大batch size，增大吞吐量
+2. stream 使用多个执行stream， 避免使用default stream, 增加implicit sync
+3. cuda graph, 对于多个小kernel执行，可能存在launch bounded情况，可以通过cuda graph来加速。 不支持dynamic shape，需要capture多个CUDA Graph. 设置nsys --cuda-graph-trace=node 查看kernel
+
+#### MatMul Layer
+如果使用FP16， 而且K不是8的倍数，TRT可能会引入reformat kernel来实现tensor core的使用，可以手动padding到8的倍数来规避。如果input是4维，可以通过尝试reshape转换为3维或2维。
+
+使用Tensor Core才能充分发挥GPU的性能。计算密集型算子，MatrixMultiply, FullyConnected, Convolution, and Deconvolution等计算密集型的算子会使用Tensor Core.
+Tenosr Core需要满足**data alignment**的要求。
+可以使用nsys --gpu-metrics-device all 来查看Tensor Core使用情况。
+
+#### Sparsity
+结构化稀疏，减少参数，使用Sparse Tensor Core进行加速。
+训练阶段，使用ASP(Automatic SParsity)修剪参数，然后微调模型来维持精度
+推理阶段，是设置build_config的SPARSE_WEIGHTS flag来挑选sparse kernel
+
+#### Optimizing Plugins
+
+
+trt中自带了LayerNorm plugin，导致自定义layerNorm plugin不会被选中生效，修改自定义plugin的名字后生效
+
 

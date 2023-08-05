@@ -29,7 +29,7 @@
 // 
 namespace
 {
-static const char* PLUGIN_NAME{"LayerNorm"};
+static const char* PLUGIN_NAME{"LayerNorm_br"};
 static const char* PLUGIN_VERSION{"1"};
 } // namespace
 

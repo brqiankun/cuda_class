@@ -55,7 +55,21 @@ __global__ void DropoutMaskKernel(Tensor* mask) {
     float rands[1];
     MaskType dst_mask[1];
     using Rand = uniform_distribution<float>;
-    using mask_functor = Mask 
+    using mask_functor = MaskFunctor<MaskType, float>(1.0f - dropout_prob);
+    auto random_tuple = Rand()(&state);
+    rands[0] = static_cast<float>((&random_tuple.x)[0]);
+    // compute mask
+    mask_functor(&dst_mask[0], &rands[0], 1);
+    mask[i] = static_cast<MaskType>(dst_mask[i]);
 }
+
+// functor of compute dropout result, when mask = 1, res = input * mask, otherwise 0
+template<typename T, typename MaskType>
+struct DstFunctor {
+    float factor;
+    inline DstFunctor(const float retain_prob) : retain_prob_(retain_prob) {
+        factor = 1.0f / retain_prob_;
+    }
+};
 
 

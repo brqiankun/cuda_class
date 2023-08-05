@@ -10,8 +10,7 @@ import time
 
 from typing import Optional, Tuple
 
-import cuda
-cuda.cuInit(0)
+from cuda import cudart
 # import pycuda.driver as cuda
 # import pycuda.autoinit
 
@@ -121,23 +120,31 @@ class TrtNetworkHelper():
 
         return gelu_layer.get_output(0)
 
-    def getLayerNormPlugin():
+    def showPluginName(self):
+        print("\n-----------------------current plugin begin---------------------\n\n")
         for c in trt.get_plugin_registry().plugin_creator_list:
-            if c.name == "LayerNorm":
+            print(c.name)
+        print("\n-----------------------current plugin end---------------------\n\n")
+
+    def getLayerNormPlugin(self):
+        self.showPluginName()
+        for c in trt.get_plugin_registry().plugin_creator_list:
+            if c.name == "LayerNorm_br":
                 return c.create_plugin(c.name, trt.PluginFieldCollection([]))
-            return None
+        return None
 
     def addLayerNorm(self, x, gamma, beta, layer_name=None, precision=None):
         # TODO: create your layer norm plugin
         inputTensorList = []
         inputTensorList.append(x)
+        print("self.network.type: ".format(type(self.network)))
         pluginLayer = self.network.add_plugin_v2(inputTensorList, self.getLayerNormPlugin())
 
         self.network.mark_output(pluginLayer.get_output(0))
         if layer_name is None:
-            layer_name = "trt.LayerNorm"
+            layer_name = "trt.LayerNorm_br"
         else:
-            layer_name = "trt.LayerNorm." + layer_name
+            layer_name = "trt.LayerNorm_br." + layer_name
 
         self.layer_post_process(pluginLayer, layer_name, precision)
         return pluginLayer.get_output(0)
@@ -155,9 +162,9 @@ class TrtNetworkHelper():
         #--------------
         weight = np.array([weight])
         # add_constant()
-        # he TensorRT API can implicitly convert Python iterables to Dims objects, so tuple or list can be used in place of this class.
+        # the TensorRT API can implicitly convert Python iterables to Dims objects, so tuple or list can be used in place of this class.
         constant_layer = self.network.add_constant(weight.shape, trt.Weights(weight))
-        X_mul = self.network.add_matrix_multiply(x, trt.MatrixOperation.NONE, weight, constant_layer.get_output(0), trt.MatrixOperation.NONE)
+        X_mul = self.network.add_matrix_multiply(x, trt.MatrixOperation.NONE, constant_layer.get_output(0), trt.MatrixOperation.NONE)
         out = X_mul.get_output(0)
         bias = np.array([[bias]])
         bias_layer = self.network.add_constant(bias.shape, trt.Weights(bias))
@@ -185,7 +192,7 @@ class TrtNetworkHelper():
         trt_layer = self.network.add_softmax(x)
 
         input_len = len(x.shape)
-        if dim is -1:
+        if dim == -1:
             dim = input_len
         trt_layer.axes = int(math.pow(2, input_len - 1))
         print(trt_layer.axes)
@@ -235,15 +242,16 @@ class TrtNetworkHelper():
     ) -> trt.ITensor:
         """scale"""
         # TODO add scale
+        print(x.shape)
         input_len = len(x.shape)
+        print(input_len)
         if input_len < 3:
             raise RuntimeError("input_len < 3 not support now")
-        trt_layer = self.network.add_elementwise(x, scale, trt.ElementWiseOperation.PROD)
         if layer_name is None:
             layer_name = "trt.scale"
 
         # The input dimension must be greater than or equal to 4
-        if input_len is 3:
+        if input_len == 3:
             trt_layer = self.network.add_shuffle(x)
             trt_layer.reshape_dims = (0, 0, 0, 1)
             self.layer_post_process(trt_layer, layer_name+".3dto4d", precision)
@@ -332,8 +340,10 @@ class InferHelper():
         bufferD = []
         # alloc memory
         for i in range(nInput):
-            bufferD.append(cuda.mem_alloc(inputs[i].nbytes))
-            cuda.memcpy_htod(bufferD[i], inputs[i].ravel())
+            print("inputs[i].nbytes: {}".format(inputs[i].nbytes))
+            bufferD.append(cudart.cudaMalloc(inputs[i].nbytes)[1])
+            print(inputs[i].ravel())
+            cudart.cudaMemcpy(bufferD[i], inputs[i].ravel(), inputs[i].nbytes, cudart.cudaMemcpyKind.cudaMemcpyHostToDevice)
             self.context.set_binding_shape(i, tuple(inputs[i].shape))
             # print(inputs[i].nbytes)
 
@@ -346,7 +356,7 @@ class InferHelper():
 
         nOutput = len(outputs)
         for i in range(nOutput):
-            bufferD.append(cuda.mem_alloc(outputs[i].nbytes))
+            bufferD.append(cudart.cudaMalloc(outputs[i].nbytes)[1])
             # print(outputs[i].nbytes)
 
         for i in range(len(inputs), self.engine.num_bindings):
@@ -369,7 +379,7 @@ class InferHelper():
         print("time=" + str((T2-T1) * 1000) + "ms")
 
         for i in range(nInput, nInput + nOutput):
-            cuda.memcpy_dtoh(outputs[i - nInput].ravel(), bufferD[i])
+            cudart.cudaMemcpy(outputs[i - nInput].ravel(), bufferD[i], outputs[i - nInput].ravel().nbytes, cudart.cudaMemcpyKind.cudaMemcpyDeviceToHost)
 
         for i in range(0, len(outputs)):
             print("outputs.shape:" + str(outputs[i].shape))

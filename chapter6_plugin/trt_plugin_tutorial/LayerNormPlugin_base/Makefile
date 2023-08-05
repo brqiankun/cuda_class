@@ -10,7 +10,7 @@ SOFLAG          = $(CUFLAG) -shared
 INCLUDE         = -I. -I$(CUDA_PATH)/include -I$(TRT_PATH)/include
 LDFLAG          = -L$(CUDA_PATH)/lib64 -lcudart -lcublas -lcublasLt -L$(TRT_PATH)/lib -lnvinfer
 
-SRC_CU          = $(shell find ./ -name '*.cu')
+SRC_CU          = $(shell find ./ -name 'LayerNormPlugin.cu')
 
 all: LayerNorm.so
 

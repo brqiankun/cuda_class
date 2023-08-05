@@ -1,2 +1,2 @@
-export LD_LIBRARY_PATH=./LayerNormPlugin/:$LD_LIBRARY_PATH
-python builder.py -x bert-base-uncased/model.onnx -c bert-base-uncased/ -o bert-base-uncased/model.plan -f | tee log.txt
+export LD_LIBRARY_PATH=./LayerNormPlugin_base/:$LD_LIBRARY_PATH
+python builder.py -x /home/br/program/bert_origin/bert_model.onnx -c /home/br/program/bert_origin/ -o ./model.plan -f | tee log.txt

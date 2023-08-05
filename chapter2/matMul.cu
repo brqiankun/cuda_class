@@ -10,11 +10,11 @@
 
 // #include "dbg.h"
 
-const int M = 2048;
+const int M = 1024;
 const int K = 2048;
-const int N = 2048;
+const int N = 1024;
 
-const int BLOCK_SIZE = 32;
+const int BLOCK_SIZE = 16;
 
 void initial(float* array, int size) {
     for (int i = 0; i < size; i++) {
@@ -49,14 +49,15 @@ void multiMatrixOnHost(float* array_A, float* array_B, float* array_C, int M_p, 
 // 不使用共享内存的版本
 __global__ void multiMatrixOnDevice(float* array_A, float* array_B, float* array_C, int M_p, int K_p, int N_p) {
     // 每个线程计算矩阵C中的一个元素
-    int col = threadIdx.x + blockDim.x * blockIdx.x;  // COL 列数
-    int row = threadIdx.y + blockDim.y * blockIdx.y;  // ROW 行数
+    int row = threadIdx.x + blockDim.x * blockIdx.x;  // row 行数
+    int col = threadIdx.y + blockDim.y * blockIdx.y;  // col 列数
     // printf("col:%d, row:%d\n", col, row);
     // printf("N_p:%d, M_p:%d\n", N_p, M_p);
     if (col < N_p && row < M_p) {
         float tmp = 0;
         for (int k = 0; k < K_p; k++) {
             tmp += array_A[row * K_p + k] * array_B[k * N_p + col];
+            // 计算一次乘加需要读array_A/B各一次，读取global memory需要几百个cycle，而计算只需几个cycle
         }
         array_C[row * N_p + col] = tmp;
         // if (col == 2)
@@ -64,46 +65,61 @@ __global__ void multiMatrixOnDevice(float* array_A, float* array_B, float* array
     }
 }
 
-__global__ void matrixMultiplyShared(float* A, float* B, float* C, int numARows, int numACols, int numBRows, int numBCols, int numCRows, int numCCols) {
+__global__ void matrixMultiShared1(float* A, float* B, float* C, int M, int N, int K) {
     __shared__ float subA[BLOCK_SIZE][BLOCK_SIZE];
     __shared__ float subB[BLOCK_SIZE][BLOCK_SIZE];
     assert(blockDim.x == BLOCK_SIZE);
 
-    int row = blockIdx.y * blockDim.y + threadIdx.y;  // 行号
-    int col = blockIdx.x * blockDim.x + threadIdx.x;  // 列号
+    int col = blockIdx.y * blockDim.y + threadIdx.y;  // 列号
+    int row = blockIdx.x * blockDim.x + threadIdx.x;  // 行号
 
     float Csub = 0.0;
     // 通过for循环依次把numAcols/BLOCK_SIZE个子矩阵放入共享内存的subA, subB
+    // 共享内存on-chip中的读约几十个cycle
+    // 降低计算访问内存比
     // Loop over all the sub-matrices of A and B that are required to compute Csub
     // Multiply each pair of sub-matrices together and accumulate the results
-    for (int i = 0; i < (numACols / BLOCK_SIZE); i++) {
-        // 每个线程读取一个元素放入subA, subB共享内存
-        // if (i * BLOCK_SIZE + threadIdx.x < numACols && row < numARows)
-        //     subA[threadIdx.y][threadIdx.x] = A[row * numACols + i * BLOCK_SIZE + threadIdx.x];
-        // else
-        //     subA[threadIdx.y][threadIdx.x] = 0;
-        
-        // if (i * BLOCK_SIZE + threadIdx.y < numBRows && col < numBCols)
-        //     subB[threadIdx.y][threadIdx.x] = B[(i * BLOCK_SIZE + threadIdx.y) * numBCols + col];
-        // else
-        //     subB[threadIdx.y][threadIdx.x] = 0;
-
-        subA[threadIdx.y][threadIdx.x] = A[row * numACols + i * BLOCK_SIZE + threadIdx.x];
-        subB[threadIdx.y][threadIdx.x] = B[(i * BLOCK_SIZE + threadIdx.y) * numBCols + col];
+    for (int i = 0; i < (K / BLOCK_SIZE); i++) {
+        subA[threadIdx.x][threadIdx.y] = A[row * K + i * BLOCK_SIZE + threadIdx.y];
+        subB[threadIdx.x][threadIdx.y] = B[(i * BLOCK_SIZE + threadIdx.x) * N + col];
 
         // synchronize to make sure the sub-matrieces are loaded before starting the computation
         __syncthreads();
 
         //计算每个元素
-        for (int j = 0; j < BLOCK_SIZE; j++)
-            Csub = Csub + subA[threadIdx.y][j] * subB[j][threadIdx.x];
+        for (int j = 0; j < BLOCK_SIZE; j++) {
+            Csub = Csub + subA[threadIdx.x][j] * subB[j][threadIdx.y];
+        }
         // synchronize to make sure that the preceding computation is done before starting the computation
         __syncthreads();
     }
 
-    if (row < numCRows && col < numCCols) 
-        C[numCCols * row + col] = Csub;
+    if (row < M && col < N) {
+        C[N * row + col] = Csub;
+    }
     
+}
+
+__global__ void matrixMultiShared2(float* A_p, float* B_p, float* C_p, int M, int N, int K) {
+    __shared__ float subA[BLOCK_SIZE][BLOCK_SIZE];
+    __shared__ float subB[BLOCK_SIZE][BLOCK_SIZE];
+    int row = blockIdx.x * blockDim.x + threadIdx.x;
+    int col = blockIdx.y * blockDim.y + threadIdx.y;
+    float sum_tmp = 0;
+    for (int i = 0; i < (K / BLOCK_SIZE); i++) {
+        // 计算每个block前先将数据从global memory读入shared memory
+        subA[threadIdx.x][threadIdx.y] = A_p[row * K + (i * BLOCK_SIZE + threadIdx.y)];
+        subB[threadIdx.x][threadIdx.y] = B_p[(i * BLOCK_SIZE + threadIdx.x) * N + col];
+        __syncthreads();
+        
+        for (int j = 0; j < BLOCK_SIZE; j++) {
+            sum_tmp = sum_tmp + subA[threadIdx.x][j] * subB[j][threadIdx.y];
+        }
+        __syncthreads();
+    }
+    if (row < M && col < K) {
+        C_p[row * N + col] = sum_tmp;
+    }
 }
 
 void checkResult(float* hostRef, float* deviceRef, const int num_to_check) {
@@ -194,13 +210,36 @@ int main(int argc, char* argv[]) {
     // shared memory 版本
     printf("\n");
 	printf("------------------------------------------------------------------------------------\n");
-	printf("Computing matrix product using matrixMultiplyShared \n");
+	printf("Computing matrix product using matrixMultiShared1 \n");
     
     elapsedTime = 0.0;
     cudaEventCreate(&gpustart);
     cudaEventCreate(&gpustop);
     cudaEventRecord(gpustart, 0);
-    matrixMultiplyShared<<<dimGrid, dimBlock>>>(d_A, d_B, d_C, M, K, K, N, M, N);
+    matrixMultiShared1<<<dimGrid, dimBlock>>>(d_A, d_B, d_C, M, N, K);
+    // cudaDeviceSynchronize();
+    cudaEventRecord(gpustop, 0);
+    cudaEventSynchronize(gpustop);
+
+    cudaEventElapsedTime(&elapsedTime, gpustart, gpustop);
+    cudaEventDestroy(gpustart);
+    cudaEventDestroy(gpustop);
+
+    cudaMemcpy(deviceRef, d_C, Cxy * sizeof(float), cudaMemcpyDeviceToHost);
+    checkResult(hostRef, deviceRef, Cxy);
+    printf("Matrix_deviceRef: (%d×%d)  <<<(%d,%d),(%d,%d)>>>  GPU运行时间为：%fs\n",
+		M, N, dimGrid.x, dimGrid.y, dimBlock.x, dimBlock.y, elapsedTime / 1000);
+
+
+    printf("\n");
+	printf("------------------------------------------------------------------------------------\n");
+	printf("Computing matrix product using matrixMultiShared2 \n");
+    
+    elapsedTime = 0.0;
+    cudaEventCreate(&gpustart);
+    cudaEventCreate(&gpustop);
+    cudaEventRecord(gpustart, 0);
+    matrixMultiShared2<<<dimGrid, dimBlock>>>(d_A, d_B, d_C, M, N, K);
     // cudaDeviceSynchronize();
     cudaEventRecord(gpustop, 0);
     cudaEventSynchronize(gpustop);

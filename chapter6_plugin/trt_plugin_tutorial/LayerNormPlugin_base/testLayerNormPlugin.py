@@ -1,19 +1,3 @@
-#
-# Copyright (c) 2021, NVIDIA CORPORATION. All rights reserved.
-#
-# Licensed under the Apache License, Version 2.0 (the "License");
-# you may not use this file except in compliance with the License.
-# You may obtain a copy of the License at
-#
-#     http://www.apache.org/licenses/LICENSE-2.0
-#
-# Unless required by applicable law or agreed to in writing, software
-# distributed under the License is distributed on an "AS IS" BASIS,
-# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-# See the License for the specific language governing permissions and
-# limitations under the License.
-#
-
 import os
 import ctypes
 import numpy as np
@@ -22,7 +6,7 @@ import tensorrt as trt
 
 soFilePath      = './LayerNorm.so'
 nBS             = 4
-nSL             = 64
+nSL             = 128
 nEmbedding      = 256
 epsilon         = 6e-6
 
@@ -42,7 +26,6 @@ def check(a, b, weak = False):
 
 def layerNormCPU(bufferH):
     _x = bufferH[0]
-    nEmbed = bufferH[0].shape[2]
     _0  = np.mean(_x,2)[:,:,np.newaxis]
     print(_0.shape)
     _1  = _x - _0
@@ -58,6 +41,12 @@ def layerNormCPU(bufferH):
     _9  = _1 * _8
     return _9
 
+def showPluginName():
+    print("\n-----------------------current plugin begin---------------------\n\n")
+    for c in trt.get_plugin_registry().plugin_creator_list:
+        print(c.name)
+    print("\n-----------------------current plugin end---------------------\n\n")
+
 def getLayerNormPlugin():
     # plg_register = trt.get_plugin_registry()
     # plg_creator = plg_register.get_plugin_creator("LayerNorm", "1", "")
@@ -71,7 +60,7 @@ def getLayerNormPlugin():
 
     for c in trt.get_plugin_registry().plugin_creator_list:
         # print(c.name)
-        if c.name == 'LayerNorm':
+        if c.name == 'LayerNorm_br':
             return c.create_plugin(c.name, trt.PluginFieldCollection([]))
     return None
 
@@ -94,9 +83,12 @@ def run():
     inputTensorList.append( network.add_input('inputT', trt.float32, [-1,-1,256]) )
     print("inputTensorList: {}".format(inputTensorList))
     print(inputTensorList[0].name, inputTensorList[0].shape, inputTensorList[0].dtype)
+    # inputTensorList.append( network.add_input('inputB', trt.float32, [256]) )
+    # inputTensorList.append( network.add_input('inputA', trt.float32, [256]) )
+    showPluginName()
 
     profile = builder.create_optimization_profile()
-    profile.set_shape('inputT',[1,4,256],[4,16,256],[16,64,256])
+    profile.set_shape('inputT',[1,4,256],[1024,256,256],[1024,256,256])
     config.add_optimization_profile(profile)
 
     print("inputTensorList's length: {}".format(len(inputTensorList)))
@@ -105,7 +97,7 @@ def run():
         raise RuntimeError("add_plugin_v2() failed")
     
     print(pluginLayer.get_output(0).dtype)
-    # pluginLayer.get_output(0).dtype = [trt.float32, trt.float16][0]
+    pluginLayer.get_output(0).dtype = [trt.float32, trt.float16][0]
     print(pluginLayer.get_output(0).dtype)
 
     network.mark_output(pluginLayer.get_output(0))
@@ -138,6 +130,7 @@ def run():
 
     bufferH = []
     bufferH.append( np.random.rand(nBS,nSL,nEmbedding).astype(np.float32).reshape(nBS,nSL,nEmbedding) * 2 - 1)
+    print(context.get_binding_shape(1))
     bufferH.append(np.empty(context.get_binding_shape(1),dtype=trt.nptype(engine.get_binding_dtype(1))))
 
     bufferD = []
