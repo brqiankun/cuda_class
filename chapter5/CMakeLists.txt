@@ -49,7 +49,7 @@ find_package(CUDAToolkit REQUIRED)
 # find_library(CUDART_LIBRARY CUDA::cudart ${CMAKE_CUDA_IMPLICIT_LINK_DIRECTORIES})
 set(CMAKE_FIND_DEBUG_MODE FALSE)
 message(STATUS "CUDAToolkit_FOUND ${CUDAToolkit_FOUND}")
-message(STATUS "CUDAToolkit_DIR ${CUDAToolkit_BIN_DIR}")
+message(STATUS "CUDAToolkit_BIN_DIR ${CUDAToolkit_BIN_DIR}")
 message(STATUS "CUDAToolkit_LIBRARY_DIR ${CUDAToolkit_LIBRARY_DIR}")
 message(STATUS "CUDAToolkit_INCLUDE_DIRS ${CUDAToolkit_INCLUDE_DIRS}")
 

@@ -2,11 +2,11 @@
 #include <cuda_runtime.h>
 
 __global__ void hello() {
-    int j = 0;
-  for (int i = 0; i < 1e6; i++) {
-    j++;
-  }
-  printf("GPU: HELLO\n");
+    // int j = 0;
+  // for (int i = 0; i < 1e6; i++) {
+  //   j++;
+  // }
+  printf("GPU (thread: %d): HELLO\n", threadIdx.x);
 }
 
 int main() {

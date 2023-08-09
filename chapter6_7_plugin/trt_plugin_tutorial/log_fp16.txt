@@ -1,0 +1,1516 @@
+[08/06/2023-22:02:32] [TRT] [V] Registered plugin creator - ::BatchedNMSDynamic_TRT version 1
+[08/06/2023-22:02:32] [TRT] [V] Registered plugin creator - ::BatchedNMS_TRT version 1
+[08/06/2023-22:02:32] [TRT] [V] Registered plugin creator - ::BatchTilePlugin_TRT version 1
+[08/06/2023-22:02:32] [TRT] [V] Registered plugin creator - ::Clip_TRT version 1
+[08/06/2023-22:02:32] [TRT] [V] Registered plugin creator - ::CoordConvAC version 1
+[08/06/2023-22:02:32] [TRT] [V] Registered plugin creator - ::CropAndResizeDynamic version 1
+[08/06/2023-22:02:32] [TRT] [V] Registered plugin creator - ::CropAndResize version 1
+[08/06/2023-22:02:32] [TRT] [V] Registered plugin creator - ::DecodeBbox3DPlugin version 1
+[08/06/2023-22:02:32] [TRT] [V] Registered plugin creator - ::DetectionLayer_TRT version 1
+[08/06/2023-22:02:32] [TRT] [V] Registered plugin creator - ::EfficientNMS_Explicit_TF_TRT version 1
+[08/06/2023-22:02:32] [TRT] [V] Registered plugin creator - ::EfficientNMS_Implicit_TF_TRT version 1
+[08/06/2023-22:02:32] [TRT] [V] Registered plugin creator - ::EfficientNMS_ONNX_TRT version 1
+[08/06/2023-22:02:32] [TRT] [V] Registered plugin creator - ::EfficientNMS_TRT version 1
+[08/06/2023-22:02:32] [TRT] [V] Registered plugin creator - ::FlattenConcat_TRT version 1
+[08/06/2023-22:02:32] [TRT] [V] Registered plugin creator - ::fMHA_V2 version 1
+[08/06/2023-22:02:32] [TRT] [V] Registered plugin creator - ::fMHCA version 1
+[08/06/2023-22:02:32] [TRT] [V] Registered plugin creator - ::GenerateDetection_TRT version 1
+[08/06/2023-22:02:32] [TRT] [V] Registered plugin creator - ::GridAnchor_TRT version 1
+[08/06/2023-22:02:32] [TRT] [V] Registered plugin creator - ::GridAnchorRect_TRT version 1
+[08/06/2023-22:02:32] [TRT] [V] Registered plugin creator - ::GroupNorm version 1
+[08/06/2023-22:02:32] [TRT] [V] Registered plugin creator - ::InstanceNormalization_TRT version 1
+[08/06/2023-22:02:32] [TRT] [V] Registered plugin creator - ::InstanceNormalization_TRT version 2
+[08/06/2023-22:02:32] [TRT] [V] Registered plugin creator - ::LayerNorm version 1
+[08/06/2023-22:02:32] [TRT] [V] Registered plugin creator - ::LReLU_TRT version 1
+[08/06/2023-22:02:32] [TRT] [V] Registered plugin creator - ::MultilevelCropAndResize_TRT version 1
+[08/06/2023-22:02:32] [TRT] [V] Registered plugin creator - ::MultilevelProposeROI_TRT version 1
+[08/06/2023-22:02:32] [TRT] [V] Registered plugin creator - ::MultiscaleDeformableAttnPlugin_TRT version 1
+[08/06/2023-22:02:32] [TRT] [V] Registered plugin creator - ::NMSDynamic_TRT version 1
+[08/06/2023-22:02:32] [TRT] [V] Registered plugin creator - ::NMS_TRT version 1
+[08/06/2023-22:02:32] [TRT] [V] Registered plugin creator - ::Normalize_TRT version 1
+[08/06/2023-22:02:32] [TRT] [V] Registered plugin creator - ::PillarScatterPlugin version 1
+[08/06/2023-22:02:32] [TRT] [V] Registered plugin creator - ::PriorBox_TRT version 1
+[08/06/2023-22:02:32] [TRT] [V] Registered plugin creator - ::ProposalDynamic version 1
+[08/06/2023-22:02:32] [TRT] [V] Registered plugin creator - ::ProposalLayer_TRT version 1
+[08/06/2023-22:02:32] [TRT] [V] Registered plugin creator - ::Proposal version 1
+[08/06/2023-22:02:32] [TRT] [V] Registered plugin creator - ::PyramidROIAlign_TRT version 1
+[08/06/2023-22:02:32] [TRT] [V] Registered plugin creator - ::Region_TRT version 1
+[08/06/2023-22:02:32] [TRT] [V] Registered plugin creator - ::Reorg_TRT version 1
+[08/06/2023-22:02:32] [TRT] [V] Registered plugin creator - ::ResizeNearest_TRT version 1
+[08/06/2023-22:02:32] [TRT] [V] Registered plugin creator - ::ROIAlign_TRT version 1
+[08/06/2023-22:02:32] [TRT] [V] Registered plugin creator - ::RPROI_TRT version 1
+[08/06/2023-22:02:32] [TRT] [V] Registered plugin creator - ::ScatterND version 1
+[08/06/2023-22:02:32] [TRT] [V] Registered plugin creator - ::SeqLen2Spatial version 1
+[08/06/2023-22:02:32] [TRT] [V] Registered plugin creator - ::SpecialSlice_TRT version 1
+[08/06/2023-22:02:32] [TRT] [V] Registered plugin creator - ::SplitGeLU version 1
+[08/06/2023-22:02:32] [TRT] [V] Registered plugin creator - ::Split version 1
+[08/06/2023-22:02:32] [TRT] [V] Registered plugin creator - ::VoxelGeneratorPlugin version 1
+[08/06/2023-22:02:32] [TRT] [I] Using configuration file: /home/br/program/bert_origin/config.json
+[08/06/2023-22:02:33] [TRT] [I] Found 202 entries in weight map
+[08/06/2023-22:02:38] [TRT] [I] Loaded engine size: 463 MiB
+[LayerNormPlugin]: this=->0x1b6e4c60
+[LayerNormPlugin]: this=->0x1b682480
+[LayerNormPlugin]: this=->0x1b6e8be0
+[LayerNormPlugin]: this=->0x1b76e3b0
+[LayerNormPlugin]: this=->0x1b71f9e0
+[LayerNormPlugin]: this=->0x1b7e5b40
+[LayerNormPlugin]: this=->0x1b7e4bc0
+[LayerNormPlugin]: this=->0x1b85e560
+[LayerNormPlugin]: this=->0x1b80f160
+[LayerNormPlugin]: this=->0x1b8d6570
+[LayerNormPlugin]: this=->0x1b8d5c00
+[LayerNormPlugin]: this=->0x1b94f7f0
+[LayerNormPlugin]: this=->0x1b8ffb90
+[LayerNormPlugin]: this=->0x1b9c7800
+[LayerNormPlugin]: this=->0x1b978bc0
+[LayerNormPlugin]: this=->0x1ba3f5c0
+[LayerNormPlugin]: this=->0x1b9f08f0
+[LayerNormPlugin]: this=->0x1bab7830
+[LayerNormPlugin]: this=->0x1ba3dce0
+[LayerNormPlugin]: this=->0x1bb0aac0
+[LayerNormPlugin]: this=->0x1bb09620
+[LayerNormPlugin]: this=->0x1bba9040
+[LayerNormPlugin]: this=->0x1bb5a1c0
+[LayerNormPlugin]: this=->0x1bc20e00
+[LayerNormPlugin]: this=->0x1bbd2660
+[LayerNormPlugin]: this=->0x1bc1e210
+[08/06/2023-22:02:39] [TRT] [V] Trying to load shared library libcublas.so.11
+[08/06/2023-22:02:39] [TRT] [V] Loaded shared library libcublas.so.11
+[08/06/2023-22:02:39] [TRT] [V] Using cublas as plugin tactic source
+[08/06/2023-22:02:39] [TRT] [V] Trying to load shared library libcublasLt.so.11
+[08/06/2023-22:02:39] [TRT] [V] Loaded shared library libcublasLt.so.11
+[08/06/2023-22:02:39] [TRT] [V] Using cublasLt as core library tactic source
+[08/06/2023-22:02:39] [TRT] [I] [MemUsageChange] Init cuBLAS/cuBLASLt: CPU +483, GPU +206, now: CPU 1892, GPU 1294 (MiB)
+[08/06/2023-22:02:39] [TRT] [V] Trying to load shared library libcudnn.so.8
+[08/06/2023-22:02:39] [TRT] [V] Loaded shared library libcudnn.so.8
+[08/06/2023-22:02:39] [TRT] [V] Using cuDNN as plugin tactic source
+[08/06/2023-22:02:39] [TRT] [V] Using cuDNN as core library tactic source
+[08/06/2023-22:02:39] [TRT] [I] [MemUsageChange] Init cuDNN: CPU +114, GPU +52, now: CPU 2006, GPU 1346 (MiB)
+[initialize]: this=->0x1b6e4c60
+[initialize]: this=->0x1b682480
+[initialize]: this=->0x1b6e8be0
+[initialize]: this=->0x1b76e3b0
+[initialize]: this=->0x1b71f9e0
+[initialize]: this=->0x1b7e5b40
+[initialize]: this=->0x1b7e4bc0
+[initialize]: this=->0x1b85e560
+[initialize]: this=->0x1b80f160
+[initialize]: this=->0x1b8d6570
+[initialize]: this=->0x1b8d5c00
+[initialize]: this=->0x1b94f7f0
+[initialize]: this=->0x1b8ffb90
+[initialize]: this=->0x1b9c7800
+[initialize]: this=->0x1b978bc0
+[initialize]: this=->0x1ba3f5c0
+[initialize]: this=->0x1b9f08f0
+[initialize]: this=->0x1bab7830
+[initialize]: this=->0x1ba3dce0
+[initialize]: this=->0x1bb0aac0
+[initialize]: this=->0x1bb09620
+[initialize]: this=->0x1bba9040
+[initialize]: this=->0x1bb5a1c0
+[initialize]: this=->0x1bc20e00
+[initialize]: this=->0x1bbd2660
+[initialize]: this=->0x1bc1e210
+[08/06/2023-22:02:39] [TRT] [V] Deserialization required 695810 microseconds.
+[08/06/2023-22:02:39] [TRT] [I] [MemUsageChange] TensorRT-managed allocation in engine deserialization: CPU +0, GPU +462, now: CPU 0, GPU 462 (MiB)
+[08/06/2023-22:02:39] [TRT] [V] Trying to load shared library libcublas.so.11
+[08/06/2023-22:02:39] [TRT] [V] Loaded shared library libcublas.so.11
+[08/06/2023-22:02:39] [TRT] [V] Using cublas as plugin tactic source
+[08/06/2023-22:02:39] [TRT] [V] Trying to load shared library libcublasLt.so.11
+[08/06/2023-22:02:39] [TRT] [V] Loaded shared library libcublasLt.so.11
+[08/06/2023-22:02:39] [TRT] [V] Using cublasLt as core library tactic source
+[08/06/2023-22:02:39] [TRT] [I] [MemUsageChange] Init cuBLAS/cuBLASLt: CPU +0, GPU +8, now: CPU 1542, GPU 1338 (MiB)
+[08/06/2023-22:02:39] [TRT] [V] Trying to load shared library libcudnn.so.8
+[08/06/2023-22:02:39] [TRT] [V] Loaded shared library libcudnn.so.8
+[08/06/2023-22:02:39] [TRT] [V] Using cuDNN as plugin tactic source
+[08/06/2023-22:02:39] [TRT] [V] Using cuDNN as core library tactic source
+[08/06/2023-22:02:39] [TRT] [I] [MemUsageChange] Init cuDNN: CPU +0, GPU +8, now: CPU 1542, GPU 1346 (MiB)
+[clone]: this=->0x1b6e4c60
+[LayerNormPlugin]: this=->0x3f060300
+[clone]: this=->0x1b682480
+[LayerNormPlugin]: this=->0x3f060750
+[clone]: this=->0x1b6e8be0
+[LayerNormPlugin]: this=->0x3f0607a0
+[clone]: this=->0x1b76e3b0
+[LayerNormPlugin]: this=->0x3f0607f0
+[clone]: this=->0x1b71f9e0
+[LayerNormPlugin]: this=->0x3f060840
+[clone]: this=->0x1b7e5b40
+[LayerNormPlugin]: this=->0x3f060890
+[clone]: this=->0x1b7e4bc0
+[LayerNormPlugin]: this=->0x3f0608e0
+[clone]: this=->0x1b85e560
+[LayerNormPlugin]: this=->0x3f060930
+[clone]: this=->0x1b80f160
+[LayerNormPlugin]: this=->0x3f060980
+[clone]: this=->0x1b8d6570
+[LayerNormPlugin]: this=->0x3f0609d0
+[clone]: this=->0x1b8d5c00
+[LayerNormPlugin]: this=->0x3f060a20
+[clone]: this=->0x1b94f7f0
+[LayerNormPlugin]: this=->0x3f060a70
+[clone]: this=->0x1b8ffb90
+[LayerNormPlugin]: this=->0x3f060ac0
+[clone]: this=->0x1b9c7800
+[LayerNormPlugin]: this=->0x3f060b10
+[clone]: this=->0x1b978bc0
+[LayerNormPlugin]: this=->0x3f060b60
+[clone]: this=->0x1ba3f5c0
+[LayerNormPlugin]: this=->0x3f060bb0
+[clone]: this=->0x1b9f08f0
+[LayerNormPlugin]: this=->0x3f060c00
+[clone]: this=->0x1bab7830
+[LayerNormPlugin]: this=->0x3f060c50
+[clone]: this=->0x1ba3dce0
+[LayerNormPlugin]: this=->0x3f060ca0
+[clone]: this=->0x1bb0aac0
+[LayerNormPlugin]: this=->0x3f060cf0
+[clone]: this=->0x1bb09620
+[LayerNormPlugin]: this=->0x3f060d40
+[clone]: this=->0x1bba9040
+[LayerNormPlugin]: this=->0x3f060d90
+[clone]: this=->0x1bb5a1c0
+[LayerNormPlugin]: this=->0x3f060de0
+[clone]: this=->0x1bc20e00
+[LayerNormPlugin]: this=->0x3f060e30
+[clone]: this=->0x1bbd2660
+[LayerNormPlugin]: this=->0x3f060e80
+[clone]: this=->0x1bc1e210
+[LayerNormPlugin]: this=->0x3f060ed0
+[08/06/2023-22:02:39] [TRT] [V] Total per-runner device persistent memory is 147456
+[08/06/2023-22:02:39] [TRT] [V] Total per-runner host persistent memory is 282720
+[08/06/2023-22:02:39] [TRT] [V] Allocated activation device memory of size 16509952
+[08/06/2023-22:02:39] [TRT] [I] [MemUsageChange] TensorRT-managed allocation in IExecutionContext creation: CPU +0, GPU +16, now: CPU 0, GPU 478 (MiB)
+[08/06/2023-22:02:39] [TRT] [W] CUDA lazy loading is not enabled. Enabling it can significantly reduce device memory usage. See `CUDA_MODULE_LOADING` in https://docs.nvidia.com/cuda/cuda-c-programming-guide/index.html#env-vars
+embeddings_word_embeddings [30522, 768]
+embeddings_position_embeddings [512, 768]
+embeddings_token_type_embeddings [2, 768]
+embeddings_layernorm_gamma [768]
+embeddings_layernorm_beta [768]
+l0_attention_self_query_kernel [768, 768]
+l0_attention_self_query_bias [768]
+l0_attention_self_key_kernel [768, 768]
+l0_attention_self_key_bias [768]
+l0_attention_self_value_kernel [768, 768]
+l0_attention_self_value_bias [768]
+l0_attention_output_dense_kernel [768, 768]
+l0_attention_output_dense_bias [768]
+l0_attention_output_layernorm_gamma [768]
+l0_attention_output_layernorm_beta [768]
+l0_intermediate_dense_kernel [3072, 768]
+l0_intermediate_dense_bias [3072]
+l0_output_dense_kernel [768, 3072]
+l0_output_dense_bias [768]
+l0_output_layernorm_gamma [768]
+l0_output_layernorm_beta [768]
+l1_attention_self_query_kernel [768, 768]
+l1_attention_self_query_bias [768]
+l1_attention_self_key_kernel [768, 768]
+l1_attention_self_key_bias [768]
+l1_attention_self_value_kernel [768, 768]
+l1_attention_self_value_bias [768]
+l1_attention_output_dense_kernel [768, 768]
+l1_attention_output_dense_bias [768]
+l1_attention_output_layernorm_gamma [768]
+l1_attention_output_layernorm_beta [768]
+l1_intermediate_dense_kernel [3072, 768]
+l1_intermediate_dense_bias [3072]
+l1_output_dense_kernel [768, 3072]
+l1_output_dense_bias [768]
+l1_output_layernorm_gamma [768]
+l1_output_layernorm_beta [768]
+l2_attention_self_query_kernel [768, 768]
+l2_attention_self_query_bias [768]
+l2_attention_self_key_kernel [768, 768]
+l2_attention_self_key_bias [768]
+l2_attention_self_value_kernel [768, 768]
+l2_attention_self_value_bias [768]
+l2_attention_output_dense_kernel [768, 768]
+l2_attention_output_dense_bias [768]
+l2_attention_output_layernorm_gamma [768]
+l2_attention_output_layernorm_beta [768]
+l2_intermediate_dense_kernel [3072, 768]
+l2_intermediate_dense_bias [3072]
+l2_output_dense_kernel [768, 3072]
+l2_output_dense_bias [768]
+l2_output_layernorm_gamma [768]
+l2_output_layernorm_beta [768]
+l3_attention_self_query_kernel [768, 768]
+l3_attention_self_query_bias [768]
+l3_attention_self_key_kernel [768, 768]
+l3_attention_self_key_bias [768]
+l3_attention_self_value_kernel [768, 768]
+l3_attention_self_value_bias [768]
+l3_attention_output_dense_kernel [768, 768]
+l3_attention_output_dense_bias [768]
+l3_attention_output_layernorm_gamma [768]
+l3_attention_output_layernorm_beta [768]
+l3_intermediate_dense_kernel [3072, 768]
+l3_intermediate_dense_bias [3072]
+l3_output_dense_kernel [768, 3072]
+l3_output_dense_bias [768]
+l3_output_layernorm_gamma [768]
+l3_output_layernorm_beta [768]
+l4_attention_self_query_kernel [768, 768]
+l4_attention_self_query_bias [768]
+l4_attention_self_key_kernel [768, 768]
+l4_attention_self_key_bias [768]
+l4_attention_self_value_kernel [768, 768]
+l4_attention_self_value_bias [768]
+l4_attention_output_dense_kernel [768, 768]
+l4_attention_output_dense_bias [768]
+l4_attention_output_layernorm_gamma [768]
+l4_attention_output_layernorm_beta [768]
+l4_intermediate_dense_kernel [3072, 768]
+l4_intermediate_dense_bias [3072]
+l4_output_dense_kernel [768, 3072]
+l4_output_dense_bias [768]
+l4_output_layernorm_gamma [768]
+l4_output_layernorm_beta [768]
+l5_attention_self_query_kernel [768, 768]
+l5_attention_self_query_bias [768]
+l5_attention_self_key_kernel [768, 768]
+l5_attention_self_key_bias [768]
+l5_attention_self_value_kernel [768, 768]
+l5_attention_self_value_bias [768]
+l5_attention_output_dense_kernel [768, 768]
+l5_attention_output_dense_bias [768]
+l5_attention_output_layernorm_gamma [768]
+l5_attention_output_layernorm_beta [768]
+l5_intermediate_dense_kernel [3072, 768]
+l5_intermediate_dense_bias [3072]
+l5_output_dense_kernel [768, 3072]
+l5_output_dense_bias [768]
+l5_output_layernorm_gamma [768]
+l5_output_layernorm_beta [768]
+l6_attention_self_query_kernel [768, 768]
+l6_attention_self_query_bias [768]
+l6_attention_self_key_kernel [768, 768]
+l6_attention_self_key_bias [768]
+l6_attention_self_value_kernel [768, 768]
+l6_attention_self_value_bias [768]
+l6_attention_output_dense_kernel [768, 768]
+l6_attention_output_dense_bias [768]
+l6_attention_output_layernorm_gamma [768]
+l6_attention_output_layernorm_beta [768]
+l6_intermediate_dense_kernel [3072, 768]
+l6_intermediate_dense_bias [3072]
+l6_output_dense_kernel [768, 3072]
+l6_output_dense_bias [768]
+l6_output_layernorm_gamma [768]
+l6_output_layernorm_beta [768]
+l7_attention_self_query_kernel [768, 768]
+l7_attention_self_query_bias [768]
+l7_attention_self_key_kernel [768, 768]
+l7_attention_self_key_bias [768]
+l7_attention_self_value_kernel [768, 768]
+l7_attention_self_value_bias [768]
+l7_attention_output_dense_kernel [768, 768]
+l7_attention_output_dense_bias [768]
+l7_attention_output_layernorm_gamma [768]
+l7_attention_output_layernorm_beta [768]
+l7_intermediate_dense_kernel [3072, 768]
+l7_intermediate_dense_bias [3072]
+l7_output_dense_kernel [768, 3072]
+l7_output_dense_bias [768]
+l7_output_layernorm_gamma [768]
+l7_output_layernorm_beta [768]
+l8_attention_self_query_kernel [768, 768]
+l8_attention_self_query_bias [768]
+l8_attention_self_key_kernel [768, 768]
+l8_attention_self_key_bias [768]
+l8_attention_self_value_kernel [768, 768]
+l8_attention_self_value_bias [768]
+l8_attention_output_dense_kernel [768, 768]
+l8_attention_output_dense_bias [768]
+l8_attention_output_layernorm_gamma [768]
+l8_attention_output_layernorm_beta [768]
+l8_intermediate_dense_kernel [3072, 768]
+l8_intermediate_dense_bias [3072]
+l8_output_dense_kernel [768, 3072]
+l8_output_dense_bias [768]
+l8_output_layernorm_gamma [768]
+l8_output_layernorm_beta [768]
+l9_attention_self_query_kernel [768, 768]
+l9_attention_self_query_bias [768]
+l9_attention_self_key_kernel [768, 768]
+l9_attention_self_key_bias [768]
+l9_attention_self_value_kernel [768, 768]
+l9_attention_self_value_bias [768]
+l9_attention_output_dense_kernel [768, 768]
+l9_attention_output_dense_bias [768]
+l9_attention_output_layernorm_gamma [768]
+l9_attention_output_layernorm_beta [768]
+l9_intermediate_dense_kernel [3072, 768]
+l9_intermediate_dense_bias [3072]
+l9_output_dense_kernel [768, 3072]
+l9_output_dense_bias [768]
+l9_output_layernorm_gamma [768]
+l9_output_layernorm_beta [768]
+l10_attention_self_query_kernel [768, 768]
+l10_attention_self_query_bias [768]
+l10_attention_self_key_kernel [768, 768]
+l10_attention_self_key_bias [768]
+l10_attention_self_value_kernel [768, 768]
+l10_attention_self_value_bias [768]
+l10_attention_output_dense_kernel [768, 768]
+l10_attention_output_dense_bias [768]
+l10_attention_output_layernorm_gamma [768]
+l10_attention_output_layernorm_beta [768]
+l10_intermediate_dense_kernel [3072, 768]
+l10_intermediate_dense_bias [3072]
+l10_output_dense_kernel [768, 3072]
+l10_output_dense_bias [768]
+l10_output_layernorm_gamma [768]
+l10_output_layernorm_beta [768]
+l11_attention_self_query_kernel [768, 768]
+l11_attention_self_query_bias [768]
+l11_attention_self_key_kernel [768, 768]
+l11_attention_self_key_bias [768]
+l11_attention_self_value_kernel [768, 768]
+l11_attention_self_value_bias [768]
+l11_attention_output_dense_kernel [768, 768]
+l11_attention_output_dense_bias [768]
+l11_attention_output_layernorm_gamma [768]
+l11_attention_output_layernorm_beta [768]
+l11_intermediate_dense_kernel [3072, 768]
+l11_intermediate_dense_bias [3072]
+l11_output_dense_kernel [768, 3072]
+l11_output_dense_bias [768]
+l11_output_layernorm_gamma [768]
+l11_output_layernorm_beta [768]
+cls_predictions_bias [30522]
+cls_predictions_transform_dense_kernel [768, 768]
+cls_predictions_transform_dense_bias [768]
+cls_predictions_transform_layernorm_gamma [768]
+cls_predictions_transform_layernorm_beta [768]
+==============test_case_data===================
+[[  101  1996  3007  1997  2605  1010   103  1010  3397  1996  1041 13355
+   2884  3578  1012   102]]
+(1, 16)
+[[0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0]]
+[[ 0  1  2  3  4  5  6  7  8  9 10 11 12 13 14 15]]
+inputs[i].nbytes: 64
+[  101  1996  3007  1997  2605  1010   103  1010  3397  1996  1041 13355
+  2884  3578  1012   102]
+inputs[i].nbytes: 64
+[0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0]
+inputs[i].nbytes: 64
+[ 0  1  2  3  4  5  6  7  8  9 10 11 12 13 14 15]
+time=7.1669469980406575ms
+outputs.shape:(1, 16, 768)
+outputs.sum:1.5258789e-05
+outputs.shape:(1, 16, 768)
+outputs.sum:8.583069e-06
+outputs.shape:(1, 16, 768)
+[configurePlugin]: this=->0x3f060300
+[configurePlugin]: this=->0x3f060750
+[configurePlugin]: this=->0x3f0607a0
+[configurePlugin]: this=->0x3f0607f0
+[configurePlugin]: this=->0x3f060840
+[configurePlugin]: this=->0x3f060890
+[configurePlugin]: this=->0x3f0608e0
+[configurePlugin]: this=->0x3f060930
+[configurePlugin]: this=->0x3f060980
+[configurePlugin]: this=->0x3f0609d0
+[configurePlugin]: this=->0x3f060a20
+[configurePlugin]: this=->0x3f060a70
+[configurePlugin]: this=->0x3f060ac0
+[configurePlugin]: this=->0x3f060b10
+[configurePlugin]: this=->0x3f060b60
+[configurePlugin]: this=->0x3f060bb0
+[configurePlugin]: this=->0x3f060c00
+[configurePlugin]: this=->0x3f060c50
+[configurePlugin]: this=->0x3f060ca0
+[configurePlugin]: this=->0x3f060cf0
+[configurePlugin]: this=->0x3f060d40
+[configurePlugin]: this=->0x3f060d90
+[configurePlugin]: this=->0x3f060de0
+[configurePlugin]: this=->0x3f060e30
+[configurePlugin]: this=->0x3f060e80
+[configurePlugin]: this=->0x3f060ed0
+
+in LayerNormPlugin_base
+
+
+in LayerNormPlugin_base
+
+
+in LayerNormPlugin_base
+
+
+in LayerNormPlugin_base
+
+
+in LayerNormPlugin_base
+
+
+in LayerNormPlugin_base
+
+
+in LayerNormPlugin_base
+
+
+in LayerNormPlugin_base
+
+
+in LayerNormPlugin_base
+
+
+in LayerNormPlugin_base
+
+
+in LayerNormPlugin_base
+
+
+in LayerNormPlugin_base
+
+
+in LayerNormPlugin_base
+
+
+in LayerNormPlugin_base
+
+
+in LayerNormPlugin_base
+
+
+in LayerNormPlugin_base
+
+
+in LayerNormPlugin_base
+
+
+in LayerNormPlugin_base
+
+
+in LayerNormPlugin_base
+
+
+in LayerNormPlugin_base
+
+
+in LayerNormPlugin_base
+
+
+in LayerNormPlugin_base
+
+
+in LayerNormPlugin_base
+
+
+in LayerNormPlugin_base
+
+
+in LayerNormPlugin_base
+
+
+in LayerNormPlugin_base
+
+
+in LayerNormPlugin_base
+
+
+in LayerNormPlugin_base
+
+
+in LayerNormPlugin_base
+
+
+in LayerNormPlugin_base
+
+
+in LayerNormPlugin_base
+
+
+in LayerNormPlugin_base
+
+
+in LayerNormPlugin_base
+
+
+in LayerNormPlugin_base
+
+
+in LayerNormPlugin_base
+
+
+in LayerNormPlugin_base
+
+
+in LayerNormPlugin_base
+
+
+in LayerNormPlugin_base
+
+
+in LayerNormPlugin_base
+
+
+in LayerNormPlugin_base
+
+
+in LayerNormPlugin_base
+
+
+in LayerNormPlugin_base
+
+
+in LayerNormPlugin_base
+
+
+in LayerNormPlugin_base
+
+
+in LayerNormPlugin_base
+
+
+in LayerNormPlugin_base
+
+
+in LayerNormPlugin_base
+
+
+in LayerNormPlugin_base
+
+
+in LayerNormPlugin_base
+
+
+in LayerNormPlugin_base
+
+
+in LayerNormPlugin_base
+
+
+in LayerNormPlugin_base
+
+
+in LayerNormPlugin_base
+
+
+in LayerNormPlugin_base
+
+
+in LayerNormPlugin_base
+
+
+in LayerNormPlugin_base
+
+
+in LayerNormPlugin_base
+
+
+in LayerNormPlugin_base
+
+
+in LayerNormPlugin_base
+
+
+in LayerNormPlugin_base
+
+
+in LayerNormPlugin_base
+
+
+in LayerNormPlugin_base
+
+
+in LayerNormPlugin_base
+
+
+in LayerNormPlugin_base
+
+
+in LayerNormPlugin_base
+
+
+in LayerNormPlugin_base
+
+
+in LayerNormPlugin_base
+
+
+in LayerNormPlugin_base
+
+
+in LayerNormPlugin_base
+
+
+in LayerNormPlugin_base
+
+
+in LayerNormPlugin_base
+
+
+in LayerNormPlugin_base
+
+
+in LayerNormPlugin_base
+
+
+in LayerNormPlugin_base
+
+
+in LayerNormPlugin_base
+
+
+in LayerNormPlugin_base
+
+
+in LayerNormPlugin_base
+
+
+in LayerNormPlugin_base
+
+
+in LayerNormPlugin_base
+
+
+in LayerNormPlugin_base
+
+
+in LayerNormPlugin_base
+
+
+in LayerNormPlugin_base
+
+
+in LayerNormPlugin_base
+
+
+in LayerNormPlugin_base
+
+
+in LayerNormPlugin_base
+
+
+in LayerNormPlugin_base
+
+
+in LayerNormPlugin_base
+
+
+in LayerNormPlugin_base
+
+
+in LayerNormPlugin_base
+
+
+in LayerNormPlugin_base
+
+
+in LayerNormPlugin_base
+
+
+in LayerNormPlugin_base
+
+
+in LayerNormPlugin_base
+
+
+in LayerNormPlugin_base
+
+
+in LayerNormPlugin_base
+
+
+in LayerNormPlugin_base
+
+
+in LayerNormPlugin_base
+
+
+in LayerNormPlugin_base
+
+
+in LayerNormPlugin_base
+
+
+in LayerNormPlugin_base
+
+
+in LayerNormPlugin_base
+
+
+in LayerNormPlugin_base
+
+
+in LayerNormPlugin_base
+
+
+in LayerNormPlugin_base
+
+
+in LayerNormPlugin_base
+
+
+in LayerNormPlugin_base
+
+
+in LayerNormPlugin_base
+
+
+in LayerNormPlugin_base
+
+
+in LayerNormPlugin_base
+
+
+in LayerNormPlugin_base
+
+
+in LayerNormPlugin_base
+
+
+in LayerNormPlugin_base
+
+
+in LayerNormPlugin_base
+
+
+in LayerNormPlugin_base
+
+
+in LayerNormPlugin_base
+
+
+in LayerNormPlugin_base
+
+
+in LayerNormPlugin_base
+
+
+in LayerNormPlugin_base
+
+
+in LayerNormPlugin_base
+
+
+in LayerNormPlugin_base
+
+
+in LayerNormPoutputs.sum:5.364418e-06
+outputs.shape:(1, 16, 768)
+outputs.sum:-5.722046e-06
+outputs.shape:(1, 16, 768)
+outputs.sum:-9.536743e-07
+outputs.shape:(1, 16, 768)
+outputs.sum:-1.4781952e-05
+outputs.shape:(1, 16, 768)
+outputs.sum:-1.66893e-06
+outputs.shape:(1, 16, 768)
+outputs.sum:-1.2993813e-05
+outputs.shape:(1, 16, 768)
+outputs.sum:3.0994415e-06
+outputs.shape:(1, 16, 768)
+outputs.sum:1.5497208e-05
+outputs.shape:(1, 16, 768)
+outputs.sum:-1.4901161e-06
+outputs.shape:(1, 16, 768)
+outputs.sum:-6.4373016e-06
+outputs.shape:(1, 16, 768)
+outputs.sum:-7.033348e-06
+outputs.shape:(1, 16, 768)
+outputs.sum:2.3841858e-07
+outputs.shape:(1, 16, 768)
+outputs.sum:-4.529953e-06
+outputs.shape:(1, 16, 768)
+outputs.sum:2.2172928e-05
+outputs.shape:(1, 16, 768)
+outputs.sum:-2.6226044e-06
+outputs.shape:(1, 16, 768)
+outputs.sum:7.1525574e-06
+outputs.shape:(1, 16, 768)
+outputs.sum:5.4836273e-06
+outputs.shape:(1, 16, 768)
+outputs.sum:-7.867813e-06
+outputs.shape:(1, 16, 768)
+outputs.sum:4.6491623e-06
+outputs.shape:(1, 16, 768)
+outputs.sum:-3.4570694e-06
+outputs.shape:(1, 16, 768)
+outputs.sum:-7.1525574e-06
+outputs.shape:(1, 16, 768)
+outputs.sum:9.536743e-07
+outputs.shape:(1, 16, 768)
+outputs.sum:4.7683716e-07
+outputs.shape:(1, 16, 768)
+outputs.sum:2.2888184e-05
+outputs.shape:(1, 16, 30522)
+outputs.sum:-408351.22
+inputs[i].nbytes: 64
+[  101  1996  3007  1997  2605  1010   103  1010  3397  1996  1041 13355
+  2884  3578  1012   102]
+inputs[i].nbytes: 64
+[0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0]
+inputs[i].nbytes: 64
+[ 0  1  2  3  4  5  6  7  8  9 10 11 12 13 14 15]
+time=7.393514999421313ms
+outputs.shape:(1, 16, 768)
+outputs.sum:1.5258789e-05
+outputs.shape:(1, 16, 768)
+outputs.sum:8.583069e-06
+outputs.shape:(1, 16, 768)
+outputs.sum:5.364418e-06
+outputs.shape:(1, 16, 768)
+outputs.sum:-5.722046e-06
+outputs.shape:(1, 16, 768)
+outputs.sum:-9.536743e-07
+outputs.shape:(1, 16, 768)
+outputs.sum:-1.4781952e-05
+outputs.shape:(1, 16, 768)
+outputs.sum:-1.66893e-06
+outputs.shape:(1, 16, 768)
+outputs.sum:-1.2993813e-05
+outputs.shape:(1, 16, 768)
+outputs.sum:3.0994415e-06
+outputs.shape:(1, 16, 768)
+outputs.sum:1.5497208e-05
+outputs.shape:(1, 16, 768)
+outputs.sum:-1.4901161e-06
+outputs.shape:(1, 16, 768)
+outputs.sum:-6.4373016e-06
+outputs.shape:(1, 16, 768)
+outputs.sum:-7.033348e-06
+outputs.shape:(1, 16, 768)
+outputs.sum:2.3841858e-07
+outputs.shape:(1, 16, 768)
+outputs.sum:-4.529953e-06
+outputs.shape:(1, 16, 768)
+outputs.sum:2.2172928e-05
+outputs.shape:(1, 16, 768)
+outputs.sum:-2.6226044e-06
+outputs.shape:(1, 16, 768)
+outputs.sum:7.1525574e-06
+outputs.shape:(1, 16, 768)
+outputs.sum:5.4836273e-06
+outputs.shape:(1, 16, 768)
+outputs.sum:-7.867813e-06
+outputs.shape:(1, 16, 768)
+outputs.sum:4.6491623e-06
+outputs.shape:(1, 16, 768)
+outputs.sum:-3.4570694e-06
+outputs.shape:(1, 16, 768)
+outputs.sum:-7.1525574e-06
+outputs.shape:(1, 16, 768)
+outputs.sum:9.536743e-07
+outputs.shape:(1, 16, 768)
+outputs.sum:4.7683716e-07
+outputs.shape:(1, 16, 768)
+outputs.sum:2.2888184e-05
+outputs.shape:(1, 16, 30522)
+outputs.sum:-408351.22
+-3662643.2
+[[[ -6.646169   -6.677546   -6.6606236 ...  -5.966044   -5.7843585
+    -4.195076 ]
+  [-14.722223  -15.21515   -15.051266  ... -13.528885  -11.396034
+   -14.560957 ]
+  [-10.122336  -10.729732  -10.116272  ...  -9.282223   -7.6954026
+   -15.493004 ]
+  ...
+  [-10.709     -11.261737  -10.9946165 ...  -8.4994545  -9.652092
+   -14.28055  ]
+  [-12.298665  -12.013122  -12.527003  ... -10.83408   -11.209129
+    -5.01338  ]
+  [-12.729227  -13.4995985 -13.165475  ... -13.218334  -10.630964
+   -12.890844 ]]]
+1.5258789e-05
+[[[ 0.11860257 -0.2567116  -0.33573428 ...  0.02075195  0.05911271
+    0.345347  ]
+  [-0.55746835  0.7340788  -0.12896764 ...  0.03157006  0.603831
+   -0.40675768]
+  [-1.1226784   0.46572897 -2.0418308  ...  0.61089617  0.5371579
+   -0.51570517]
+  ...
+  [ 0.          0.          0.         ...  0.          0.
+    0.        ]
+  [ 0.          0.          0.         ...  0.          0.
+    0.        ]
+  [ 0.          0.          0.         ...  0.          0.
+    0.        ]]]
+==============model test===================
+inputs[i].nbytes: 64
+[  101  1996  3007  1997  2605  1010   103  1010  3397  1996  1041 13355
+  2884  3578  1012   102]
+inputs[i].nbytes: 64
+[0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0]
+inputs[i].nbytes: 64
+[ 0  1  2  3  4  5  6  7  8  9 10 11 12 13 14 15]
+time=7.22708099783631ms
+outputs.shape:(1, 16, 768)
+outputs.sum:1.5258789e-05
+outputs.shape:(1, 16, 768)
+outputs.sum:8.583069e-06
+outputs.shape:(1, 16, 768)
+outputs.sum:5.364418e-06
+outputs.shape:(1, 16, 768)
+outputs.sum:-5.722046e-06
+outputs.shape:(1, 16, 768)
+outputs.sum:-9.536743e-07
+outputs.shape:(1, 16, 768)
+outputs.sum:-1.4781952e-05
+outputs.shape:(1, 16, 768)
+outputs.sum:-1.66893e-06
+outputs.shape:(1, 16, 768)
+outputs.sum:-1.2993813e-05
+outputs.shape:(1, 16, 768)
+outputs.sum:3.0994415e-06
+outputs.shape:(1, 16, 768)
+outputs.sum:1.5497208e-05
+outputs.shape:(1, 16, 768)
+outputs.sum:-1.4901161e-06
+outputs.shape:(1, 16, 768)
+outputs.sum:-6.4373016e-06
+outputs.shape:(1, 16, 768)
+outputs.sum:-7.033348e-06
+outputs.shape:(1, 16, 768)
+outputs.sum:2.3841858e-07
+outputs.shape:(1, 16, 768)
+outputs.sum:-4.529953e-06
+outputs.shape:(1, 16, 768)
+outputs.sum:2.2172928e-05
+outputs.shape:(1, 16, 768)
+outputs.sum:-2.6226044e-06
+outputs.shape:(1, 16, 768)
+outputs.sum:7.1525574e-06
+outputs.shape:(1, 16, 768)
+outputs.sum:5.4836273e-06
+outputs.shape:(1, 16, 768)
+outputs.sum:-7.867813e-06
+outputs.shape:(1, 16, 768)
+outputs.sum:4.6491623e-06
+outputs.shape:(1, 16, 768)
+outputs.sum:-3.4570694e-06
+outputs.shape:(1, 16, 768)
+outputs.sum:-7.1525574e-06
+outputs.shape:(1, 16, 768)
+outputs.sum:9.536743e-07
+outputs.shape:(1, 16, 768)
+outputs.sum:4.7683716e-07
+outputs.shape:(1, 16, 768)
+outputs.sum:2.2888184e-05
+outputs.shape:(1, 16, 30522)
+outputs.sum:-408351.22
+[array([[[ 0.11860257, -0.2567116 , -0.33573428, ...,  0.02075195,
+          0.05911271,  0.345347  ],
+        [-0.55746835,  0.7340788 , -0.12896764, ...,  0.03157006,
+          0.603831  , -0.40675768],
+        [-1.1226784 ,  0.46572897, -2.0418308 , ...,  0.61089617,
+          0.5371579 , -0.51570517],
+        ...,
+        [ 0.        ,  0.        ,  0.        , ...,  0.        ,
+          0.        ,  0.        ],
+        [ 0.        ,  0.        ,  0.        , ...,  0.        ,
+          0.        ,  0.        ],
+        [ 0.        ,  0.        ,  0.        , ...,  0.        ,
+          0.        ,  0.        ]]], dtype=float32), array([[[ 0.02658949, -0.25973815, -0.46900085, ..., -0.06493643,
+          0.02092131, -0.14259249],
+        [-0.7321586 ,  0.6658252 ,  0.14960568, ..., -0.11731289,
+          0.674726  , -0.7398178 ],
+        [-1.0817994 ,  0.6918658 , -1.578817  , ...,  0.35028157,
+          0.7529627 , -0.732853  ],
+        ...,
+        [ 0.        ,  0.        ,  0.        , ...,  0.        ,
+          0.        ,  0.        ],
+        [ 0.        ,  0.        ,  0.        , ...,  0.        ,
+          0.        ,  0.        ],
+        [ 0.        ,  0.        ,  0.        , ...,  0.        ,
+          0.        ,  0.        ]]], dtype=float32), array([[[-0.25823858, -0.73207927, -0.3245275 , ...,  0.13111067,
+          0.20874909,  0.0562177 ],
+        [-0.4492099 , -0.59545153,  0.14644031, ...,  0.5439907 ,
+          0.9225991 , -1.5658853 ],
+        [-1.0751597 ,  0.42303145, -1.3238337 , ...,  0.47478795,
+          0.9139074 , -1.7513263 ],
+        ...,
+        [ 0.        ,  0.        ,  0.        , ...,  0.        ,
+          0.        ,  0.        ],
+        [ 0.        ,  0.        ,  0.        , ...,  0.        ,
+          0.        ,  0.        ],
+        [ 0.        ,  0.        ,  0.        , ...,  0.        ,
+          0.        ,  0.        ]]], dtype=float32), array([[[ 0.26378897, -0.47975042, -0.02501972, ...,  0.15351704,
+          0.45594233, -0.06013044],
+        [ 0.09846698, -0.12522541,  0.64624584, ...,  0.44505867,
+          1.1611406 , -1.5466329 ],
+        [-0.64570314,  0.7150858 , -0.8812722 , ...,  0.42389864,
+          1.129325  , -1.8440213 ],
+        ...,
+        [ 0.        ,  0.        ,  0.        , ...,  0.        ,
+          0.        ,  0.        ],
+        [ 0.        ,  0.        ,  0.        , ...,  0.        ,
+          0.        ,  0.        ],
+        [ 0.        ,  0.        ,  0.        , ...,  0.        ,
+          0.        ,  0.        ]]], dtype=float32), array([[[ 0.55934745, -0.80006355,  0.35344696, ..., -0.14807206,
+          0.38473058,  0.3781858 ],
+        [-0.4050489 , -0.3181746 ,  0.5890666 , ...,  0.7812171 ,
+          0.45705044, -1.5718486 ],
+        [-0.6627498 ,  0.8706508 , -1.0479275 , ...,  0.15666875,
+          0.89021474, -1.8563489 ],
+        ...,
+        [ 0.        ,  0.        ,  0.        , ...,  0.        ,
+          0.        ,  0.        ],
+        [ 0.        ,  0.        ,  0.        , ...,  0.        ,
+          0.        ,  0.        ],
+        [ 0.        ,  0.        ,  0.        , ...,  0.        ,
+          0.        ,  0.        ]]], dtype=float32), array([[[ 0.6323615 , -0.3258851 ,  0.18230394, ..., -0.03039287,
+          0.7007733 ,  0.08785393],
+        [-0.6608332 ,  0.03507649,  0.4583932 , ...,  0.41485694,
+          0.7202359 , -1.9772465 ],
+        [-0.76974565,  1.2285914 , -0.96554345, ..., -0.07265479,
+          1.1095982 , -1.8772913 ],
+        ...,
+        [ 0.        ,  0.        ,  0.        , ...,  0.        ,
+          0.        ,  0.        ],
+        [ 0.        ,  0.        ,  0.        , ...,  0.        ,
+          0.        ,  0.        ],
+        [ 0.        ,  0.        ,  0.        , ...,  0.        ,
+          0.        ,  0.        ]]], dtype=float32), array([[[-0.14307208,  0.384169  ,  0.39017376, ..., -0.26028046,
+          0.18355192,  0.22226685],
+        [-0.9783038 , -0.08052785,  0.26003334, ...,  1.5185803 ,
+          0.8112734 , -1.2769556 ],
+        [-0.23939475,  0.9747418 , -0.26213202, ...,  0.46151522,
+          1.2541903 , -0.22289304],
+        ...,
+        [ 0.        ,  0.        ,  0.        , ...,  0.        ,
+          0.        ,  0.        ],
+        [ 0.        ,  0.        ,  0.        , ...,  0.        ,
+          0.        ,  0.        ],
+        [ 0.        ,  0.        ,  0.        , ...,  0.        ,
+          0.        ,  0.        ]]], dtype=float32), array([[[-0.34812167,  0.0471622 ,  0.4770826 , ..., -0.33376873,
+          0.49562398,  0.53518885],
+        [-1.13551   , -0.5288318 ,  0.35902974, ...,  1.3586181 ,
+          0.8836269 , -1.0215623 ],
+        [-0.41938972,  0.58590233, -0.1327083 , ...,  0.28970116,
+          1.4139502 ,  0.10406012],
+        ...,
+        [ 0.        ,  0.        ,  0.        , ...,  0.        ,
+          0.        ,  0.        ],
+        [ 0.        ,  0.        ,  0.        , ...,  0.        ,
+          0.        ,  0.        ],
+        [ 0.        ,  0.        ,  0.        , ...,  0.        ,
+          0.        ,  0.        ]]], dtype=float32), array([[[-0.5290877 ,  0.24228573,  0.719859  , ..., -1.0205232 ,
+         -0.02661991, -0.1773965 ],
+        [-0.8506892 , -1.0932472 , -0.20828038, ...,  0.4904617 ,
+          0.1356208 , -1.3019196 ],
+        [-0.44009975, -0.28909576, -0.40720588, ...,  0.1812042 ,
+          1.708863  , -0.31883425],
+        ...,
+        [ 0.        ,  0.        ,  0.        , ...,  0.        ,
+          0.        ,  0.        ],
+        [ 0.        ,  0.        ,  0.        , ...,  0.        ,
+          0.        ,  0.        ],
+        [ 0.        ,  0.        ,  0.        , ...,  0.        ,
+          0.        ,  0.        ]]], dtype=float32), array([[[-0.48635256,  0.32341966,  0.38120577, ..., -0.9268449 ,
+         -0.5406258 , -0.44924957],
+        [-1.0655999 , -1.3258318 , -0.4202458 , ...,  0.5901245 ,
+         -0.03674995, -1.6681739 ],
+        [-0.5644692 , -0.38998988, -0.56685   , ...,  0.4633034 ,
+          1.3894128 , -0.62014   ],
+        ...,
+        [ 0.        ,  0.        ,  0.        , ...,  0.        ,
+          0.        ,  0.        ],
+        [ 0.        ,  0.        ,  0.        , ...,  0.        ,
+          0.        ,  0.        ],
+        [ 0.        ,  0.        ,  0.        , ...,  0.        ,
+          0.        ,  0.        ]]], dtype=float32), array([[[-0.8864586 , -0.04571103,  0.03056504, ..., -0.68392575,
+         -0.7708124 , -0.73799276],
+        [-1.0359175 , -1.162371  , -0.9371885 , ..., -0.6875201 ,
+         -0.40910035, -0.32294887],
+        [-1.1333653 , -0.35979044, -0.5481717 , ..., -0.07437816,
+          0.68361884, -0.14405255],
+        ...,
+        [ 0.        ,  0.        ,  0.        , ...,  0.        ,
+          0.        ,  0.        ],
+        [ 0.        ,  0.        ,  0.        , ...,  0.        ,
+          0.        ,  0.        ],
+        [ 0.        ,  0.        ,  0.        , ...,  0.        ,
+          0.        ,  0.        ]]], dtype=float32), array([[[-0.9488603 ,  0.03780166, -0.17890687, ..., -0.15497625,
+         -0.4002676 , -0.3369394 ],
+        [-0.8578938 , -1.3858817 , -1.1974741 , ..., -0.20035076,
+          0.02219648, -0.37670732],
+        [-1.05065   , -0.65742373, -0.83425546, ...,  0.52887577,
+          0.8756973 , -0.14901437],
+        ...,
+        [ 0.        ,  0.        ,  0.        , ...,  0.        ,
+          0.        ,  0.        ],
+        [ 0.        ,  0.        ,  0.        , ...,  0.        ,
+          0.        ,  0.        ],
+        [ 0.        ,  0.        ,  0.        , ...,  0.        ,
+          0.        ,  0.        ]]], dtype=float32), array([[[-1.260008  ,  0.27344364, -0.0239646 , ...,  0.45308825,
+         -0.17126524, -0.84382623],
+        [-1.0639974 , -0.91116095, -1.2087379 , ...,  0.05579603,
+          0.68722034, -1.172832  ],
+        [-1.794493  , -0.5435945 , -0.7999085 , ...,  0.17547488,
+          0.49032006,  0.00543175],
+        ...,
+        [ 0.        ,  0.        ,  0.        , ...,  0.        ,
+          0.        ,  0.        ],
+        [ 0.        ,  0.        ,  0.        , ...,  0.        ,
+          0.        ,  0.        ],
+        [ 0.        ,  0.        ,  0.        , ...,  0.        ,
+          0.        ,  0.        ]]], dtype=float32), array([[[-0.6786053 ,  0.8534289 , -0.28010875, ...,  0.13392293,
+         -0.527598  , -1.3017772 ],
+        [-0.5824638 , -0.47841826, -1.2744728 , ..., -0.27963743,
+          0.29693884, -1.4230596 ],
+        [-0.95996565, -0.13450526, -0.8033196 , ..., -0.1938497 ,
+          0.3542698 , -0.44087616],
+        ...,
+        [ 0.        ,  0.        ,  0.        , ...,  0.        ,
+          0.        ,  0.        ],
+        [ 0.        ,  0.        ,  0.        , ...,  0.        ,
+          0.        ,  0.        ],
+        [ 0.        ,  0.        ,  0.        , ...,  0.        ,
+          0.        ,  0.        ]]], dtype=float32), array([[[-0.94113654,  1.353584  , -0.22232513, ...,  1.1093515 ,
+         -0.6158364 , -0.49246454],
+        [-0.20152175, -0.05381726, -2.167816  , ..., -0.0750529 ,
+         -0.47225004, -1.3315123 ],
+        [-0.8567934 , -0.21412954, -0.8700729 , ..., -0.2569787 ,
+          0.515937  ,  0.03899683],
+        ...,
+        [ 0.        ,  0.        ,  0.        , ...,  0.        ,
+          0.        ,  0.        ],
+        [ 0.        ,  0.        ,  0.        , ...,  0.        ,
+          0.        ,  0.        ],
+        [ 0.        ,  0.        ,  0.        , ...,  0.        ,
+          0.        ,  0.        ]]], dtype=float32), array([[[-0.60636586,  0.8446403 , -0.44358033, ...,  1.14703   ,
+         -0.979808  , -0.7076099 ],
+        [-0.32775757, -0.19869848, -2.1301708 , ...,  0.1592762 ,
+         -0.34377986, -1.525969  ],
+        [-0.8628847 , -0.28956488, -1.0872623 , ...,  0.02053177,
+          0.6354346 , -0.16964014],
+        ...,
+        [ 0.        ,  0.        ,  0.        , ...,  0.        ,
+          0.        ,  0.        ],
+        [ 0.        ,  0.        ,  0.        , ...,  0.        ,
+          0.        ,  0.        ],
+        [ 0.        ,  0.        ,  0.        , ...,  0.        ,
+          0.        ,  0.        ]]], dtype=float32), array([[[-0.14506975,  0.8163963 , -0.4516388 , ...,  1.3027651 ,
+         -0.8005889 , -1.0508819 ],
+        [ 0.06293875,  0.1823592 , -1.7783674 , ...,  1.0129789 ,
+         -0.18078044, -1.3117977 ],
+        [-0.2614976 , -0.6572544 , -0.44684756, ...,  1.3555847 ,
+          0.6371729 , -0.21435373],
+        ...,
+        [ 0.        ,  0.        ,  0.        , ...,  0.        ,
+          0.        ,  0.        ],
+        [ 0.        ,  0.        ,  0.        , ...,  0.        ,
+          0.        ,  0.        ],
+        [ 0.        ,  0.        ,  0.        , ...,  0.        ,
+          0.        ,  0.        ]]], dtype=float32), array([[[-0.2847539 ,  1.1039442 , -0.96215975, ...,  0.79760164,
+         -0.5422655 , -1.3336557 ],
+        [-0.01902849,  0.23337823, -2.2205622 , ...,  0.6929604 ,
+          0.5867663 , -1.1810886 ],
+        [-0.23258379, -0.39358675, -0.7336799 , ...,  1.3730565 ,
+          1.2256238 , -0.17479981],
+        ...,
+        [ 0.        ,  0.        ,  0.        , ...,  0.        ,
+          0.        ,  0.        ],
+        [ 0.        ,  0.        ,  0.        , ...,  0.        ,
+          0.        ,  0.        ],
+        [ 0.        ,  0.        ,  0.        , ...,  0.        ,
+          0.        ,  0.        ]]], dtype=float32), array([[[-0.5186833 ,  0.43775752, -1.14508   , ..., -0.03127285,
+         -0.23949188, -1.4237071 ],
+        [-0.02054109,  0.3696114 , -2.0589142 , ...,  0.4643326 ,
+          0.5322231 , -1.3929085 ],
+        [-0.95674753, -0.6606424 , -1.1424595 , ...,  0.32542163,
+          1.3933358 , -0.20198335],
+        ...,
+        [ 0.        ,  0.        ,  0.        , ...,  0.        ,
+          0.        ,  0.        ],
+        [ 0.        ,  0.        ,  0.        , ...,  0.        ,
+          0.        ,  0.        ],
+        [ 0.        ,  0.        ,  0.        , ...,  0.        ,
+          0.        ,  0.        ]]], dtype=float32), array([[[-0.96229374, -0.10975789, -1.0389726 , ..., -0.5772448 ,
+         -0.61746776, -0.9309191 ],
+        [ 0.08478159,  0.08107156, -2.1840563 , ...,  0.12831278,
+          0.19702862, -1.0722172 ],
+        [-1.0381445 , -0.75649214, -1.5516524 , ..., -0.28048483,
+          0.88148236,  0.63991904],
+        ...,
+        [ 0.        ,  0.        ,  0.        , ...,  0.        ,
+          0.        ,  0.        ],
+        [ 0.        ,  0.        ,  0.        , ...,  0.        ,
+          0.        ,  0.        ],
+        [ 0.        ,  0.        ,  0.        , ...,  0.        ,
+          0.        ,  0.        ]]], dtype=float32), array([[[-0.5659705 ,  0.18185782, -0.7308591 , ...,  0.35091794,
+         -0.36519495, -1.4471363 ],
+        [ 0.0968486 ,  0.01761364, -0.07720714, ...,  0.04418676,
+          0.04659188,  0.02928773],
+        [-0.4086636 , -0.2480687 , -1.0444905 , ..., -0.21659896,
+          0.56055564,  0.64426965],
+        ...,
+        [ 0.        ,  0.        ,  0.        , ...,  0.        ,
+          0.        ,  0.        ],
+        [ 0.        ,  0.        ,  0.        , ...,  0.        ,
+          0.        ,  0.        ],
+        [ 0.        ,  0.        ,  0.        , ...,  0.        ,
+          0.        ,  0.        ]]], dtype=float32), array([[[-0.29878125, -0.4072118 ,  0.47568998, ...,  0.16154829,
+          0.23252897, -1.3875589 ],
+        [ 0.18379802, -1.1094335 , -0.18560147, ...,  0.78164345,
+          0.03379124,  0.33147505],
+        [-0.5845779 , -0.49575832, -0.3786404 , ..., -0.10979238,
+          0.60845274, -0.24776946],
+        ...,
+        [ 0.        ,  0.        ,  0.        , ...,  0.        ,
+          0.        ,  0.        ],
+        [ 0.        ,  0.        ,  0.        , ...,  0.        ,
+          0.        ,  0.        ],
+        [ 0.        ,  0.        ,  0.        , ...,  0.        ,
+          0.        ,  0.        ]]], dtype=float32), array([[[ 0.03198044, -0.6236903 ,  0.40146562, ...,  0.39494047,
+         -0.9093139 , -1.974672  ],
+        [ 0.05549655,  0.03240435,  0.0816194 , ...,  0.14223388,
+          0.1011707 ,  0.02081579],
+        [-0.11074572, -1.0215685 ,  0.05030685, ...,  0.82987595,
+          0.32523334, -0.417502  ],
+        ...,
+        [ 0.        ,  0.        ,  0.        , ...,  0.        ,
+          0.        ,  0.        ],
+        [ 0.        ,  0.        ,  0.        , ...,  0.        ,
+          0.        ,  0.        ],
+        [ 0.        ,  0.        ,  0.        , ...,  0.        ,
+          0.        ,  0.        ]]], dtype=float32), array([[[ 0.1262238 , -0.23904863,  0.03690952, ..., -0.2859109 ,
+         -1.2108365 , -0.7145024 ],
+        [ 0.06568708, -0.10059561, -0.5389407 , ..., -0.290215  ,
+         -0.46830633,  0.8248517 ],
+        [-0.27161235, -0.92463   ,  0.01318185, ...,  0.03033008,
+         -0.3588405 ,  0.3177352 ],
+        ...,
+        [ 0.        ,  0.        ,  0.        , ...,  0.        ,
+          0.        ,  0.        ],
+        [ 0.        ,  0.        ,  0.        , ...,  0.        ,
+          0.        ,  0.        ],
+        [ 0.        ,  0.        ,  0.        , ...,  0.        ,
+          0.        ,  0.        ]]], dtype=float32), array([[[-0.20077321, -0.54483455, -0.6865941 , ...,  0.06811208,
+         -2.111188  , -1.9714196 ],
+        [ 0.21848598,  0.15625131, -0.01361771, ..., -0.21386221,
+         -1.9224291 , -0.15147759],
+        [-0.2378325 , -0.592456  ,  0.93517196, ..., -0.24529132,
+         -2.4913175 , -1.1511369 ],
+        ...,
+        [ 0.        ,  0.        ,  0.        , ...,  0.        ,
+          0.        ,  0.        ],
+        [ 0.        ,  0.        ,  0.        , ...,  0.        ,
+          0.        ,  0.        ],
+        [ 0.        ,  0.        ,  0.        , ...,  0.        ,
+          0.        ,  0.        ]]], dtype=float32), array([[[ 0.58950454, -0.9749532 , -0.9023787 , ..., -0.8764076 ,
+         -0.90134597, -0.89984655],
+        [ 0.00177889, -0.2833141 , -0.8468679 , ..., -0.6494728 ,
+         -0.7587583 , -0.91172534],
+        [ 0.47906813, -0.61575603, -0.45649478, ..., -0.68483824,
+         -0.07785547,  0.41016808],
+        ...,
+        [ 0.        ,  0.        ,  0.        , ...,  0.        ,
+          0.        ,  0.        ],
+        [ 0.        ,  0.        ,  0.        , ...,  0.        ,
+          0.        ,  0.        ],
+        [ 0.        ,  0.        ,  0.        , ...,  0.        ,
+          0.        ,  0.        ]]], dtype=float32), array([[[-3.9023438 , -3.8105469 , -3.8808594 , ..., -4.1914062 ,
+         -4.1445312 , -3.9550781 ],
+        [-4.7929688 , -4.796875  , -4.5507812 , ..., -4.4296875 ,
+         -4.8007812 , -4.9335938 ],
+        [-4.515625  , -4.5976562 , -4.2695312 , ..., -4.7851562 ,
+         -5.2460938 , -4.6640625 ],
+        ...,
+        [-0.41918945, -0.42016602, -0.41918945, ..., -0.79003906,
+         -0.78222656, -0.49658203],
+        [-0.41918945, -0.42016602, -0.41918945, ..., -0.79003906,
+         -0.78222656, -0.49658203],
+        [-0.41918945, -0.42016602, -0.41918945, ..., -0.79003906,
+         -0.78222656, -0.49658203]]], dtype=float32)]
+model test topk10 output:
+The capital of France, [unused7], contains the Eiffel Tower.
+The capital of France, [unused8], contains the Eiffel Tower.
+The capital of France, [unused3], contains the Eiffel Tower.
+The capital of France, [unused6], contains the Eiffel Tower.
+The capital of France, [unused4], contains the Eiffel Tower.
+The capital of France, [unused2], contains the Eiffel Tower.
+The capital of France, [unused0], contains the Eiffel Tower.
+The capital of France, [PAD], contains the Eiffel Tower.
+The capital of France, [unused1], contains the Eiffel Tower.
+The capital of France, [unused5], contains the Eiffel Tower.
+lugin_base
+
+
+in LayerNormPlugin_base
+
+
+in LayerNormPlugin_base
+
+
+in LayerNormPlugin_base
+
+
+in LayerNormPlugin_base
+
+
+in LayerNormPlugin_base
+
+
+in LayerNormPlugin_base
+
+
+in LayerNormPlugin_base
+
+
+in LayerNormPlugin_base
+
+
+in LayerNormPlugin_base
+
+
+in LayerNormPlugin_base
+
+
+in LayerNormPlugin_base
+
+
+in LayerNormPlugin_base
+
+
+in LayerNormPlugin_base
+
+
+in LayerNormPlugin_base
+
+
+in LayerNormPlugin_base
+
+
+in LayerNormPlugin_base
+
+
+in LayerNormPlugin_base
+
+
+in LayerNormPlugin_base
+
+
+in LayerNormPlugin_base
+
+
+in LayerNormPlugin_base
+
+
+in LayerNormPlugin_base
+
+
+in LayerNormPlugin_base
+
+
+in LayerNormPlugin_base
+
+
+in LayerNormPlugin_base
+
+
+in LayerNormPlugin_base
+
+
+in LayerNormPlugin_base
+
+
+in LayerNormPlugin_base
+
+
+in LayerNormPlugin_base
+
+
+in LayerNormPlugin_base
+
+
+in LayerNormPlugin_base
+
+
+in LayerNormPlugin_base
+
+
+in LayerNormPlugin_base
+
+
+in LayerNormPlugin_base
+
+
+in LayerNormPlugin_base
+
+
+in LayerNormPlugin_base
+
+[destroy]: this=->0x3f060d90
+[destroy]: this=->0x3f060ed0
+[destroy]: this=->0x3f060ca0
+[destroy]: this=->0x3f060c50
+[destroy]: this=->0x3f060b60
+[destroy]: this=->0x3f060d40
+[destroy]: this=->0x3f060b10
+[destroy]: this=->0x3f060300
+[destroy]: this=->0x3f060750
+[destroy]: this=->0x3f060de0
+[destroy]: this=->0x3f0607a0
+[destroy]: this=->0x3f0607f0
+[destroy]: this=->0x3f060840
+[destroy]: this=->0x3f060e30
+[destroy]: this=->0x3f060890
+[destroy]: this=->0x3f0608e0
+[destroy]: this=->0x3f060930
+[destroy]: this=->0x3f060c00
+[destroy]: this=->0x3f060980
+[destroy]: this=->0x3f060ac0
+[destroy]: this=->0x3f0609d0
+[destroy]: this=->0x3f060bb0
+[destroy]: this=->0x3f060a20
+[destroy]: this=->0x3f060e80
+[destroy]: this=->0x3f060cf0
+[destroy]: this=->0x3f060a70
+[terminate]: this=->0x1b6e4c60
+[destroy]: this=->0x1b6e4c60
+[terminate]: this=->0x1b682480
+[destroy]: this=->0x1b682480
+[terminate]: this=->0x1b6e8be0
+[destroy]: this=->0x1b6e8be0
+[terminate]: this=->0x1b76e3b0
+[destroy]: this=->0x1b76e3b0
+[terminate]: this=->0x1b71f9e0
+[destroy]: this=->0x1b71f9e0
+[terminate]: this=->0x1b7e5b40
+[destroy]: this=->0x1b7e5b40
+[terminate]: this=->0x1b7e4bc0
+[destroy]: this=->0x1b7e4bc0
+[terminate]: this=->0x1b85e560
+[destroy]: this=->0x1b85e560
+[terminate]: this=->0x1b80f160
+[destroy]: this=->0x1b80f160
+[terminate]: this=->0x1b8d6570
+[destroy]: this=->0x1b8d6570
+[terminate]: this=->0x1b8d5c00
+[destroy]: this=->0x1b8d5c00
+[terminate]: this=->0x1b94f7f0
+[destroy]: this=->0x1b94f7f0
+[terminate]: this=->0x1b8ffb90
+[destroy]: this=->0x1b8ffb90
+[terminate]: this=->0x1b9c7800
+[destroy]: this=->0x1b9c7800
+[terminate]: this=->0x1b978bc0
+[destroy]: this=->0x1b978bc0
+[terminate]: this=->0x1ba3f5c0
+[destroy]: this=->0x1ba3f5c0
+[terminate]: this=->0x1b9f08f0
+[destroy]: this=->0x1b9f08f0
+[terminate]: this=->0x1bab7830
+[destroy]: this=->0x1bab7830
+[terminate]: this=->0x1ba3dce0
+[destroy]: this=->0x1ba3dce0
+[terminate]: this=->0x1bb0aac0
+[destroy]: this=->0x1bb0aac0
+[terminate]: this=->0x1bb09620
+[destroy]: this=->0x1bb09620
+[terminate]: this=->0x1bba9040
+[destroy]: this=->0x1bba9040
+[terminate]: this=->0x1bb5a1c0
+[destroy]: this=->0x1bb5a1c0
+[terminate]: this=->0x1bc20e00
+[destroy]: this=->0x1bc20e00
+[terminate]: this=->0x1bbd2660
+[destroy]: this=->0x1bbd2660
+[terminate]: this=->0x1bc1e210
+[destroy]: this=->0x1bc1e210
